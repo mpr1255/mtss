@@ -214,3 +214,4 @@ rsconnect/
 Icon*
 *conflict_on*
 rr_code/llm_classifier/code/classify_quant_papers (conflict \#1_on_2024-05-07).py
+rr_code/llm_classifier/code/proj_secrets.py

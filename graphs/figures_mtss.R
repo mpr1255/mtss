@@ -424,10 +424,9 @@ prereg_journal_graph_2020_20 <- ggplot(prereg_journal_filtered_2020_20, aes(x=re
     colour = "black", size = 3,
     vjust = -0.25) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 55, hjust=1)) +
   labs(title = "",
        x = "", y = "Percent") +
-  theme(legend.position = "bottom",
+  theme(axis.text.x = element_text(angle = 55, hjust=1),
         axis.title = element_text(size = 14),
         axis.text = element_text(size = 12),
         panel.grid.major = element_blank(), 
@@ -481,5 +480,33 @@ ggsave("graphs/pd_time.png",
        plot = pd_perc_graph,
        width = 5,
        height = 4,
+       limitsize = FALSE,
+       dpi = 900)
+
+ggsave("graphs/od_journal_2020.png",
+       plot = od_journal_graph_2020_20,
+       width = 12,
+       height = 9,
+       limitsize = FALSE,
+       dpi = 900)
+
+ggsave("graphs/prereg_journal_2020.png",
+       plot = prereg_journal_graph_2020_20,
+       width = 9,
+       height = 6,
+       limitsize = FALSE,
+       dpi = 900)
+
+ggsave("graphs/od_journal_all_2020.png",
+       plot = od_journal_graph_2020,
+       width = 24,
+       height = 12,
+       limitsize = FALSE,
+       dpi = 900)
+
+ggsave("graphs/prereg_journal_all_2020.png",
+       plot = prereg_journal_graph_2020,
+       width = 26,
+       height = 12,
        limitsize = FALSE,
        dpi = 900)

@@ -1,6 +1,6 @@
 # Replication materials for "Measuring Transparency in the Social Sciences"
 
-[![DOI](https://zenodo.org/badge/{github_id}.svg)](https://zenodo.org/badge/latestdoi/798607460)
+[![DOI](https://zenodo.org/badge/798607460.svg)](https://zenodo.org/doi/10.5281/zenodo.11171193)
 
 The following is a walk-through of the methods we used for the paper "Measuring Transparency in the Social Sciences." It is written in an informal style and goes into more detail than the paper allowed in order to explain the technical details and the specific code files that do the work for the project.
 

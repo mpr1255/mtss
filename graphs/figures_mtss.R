@@ -265,7 +265,7 @@ prereg_journal_20_graph <- ggplot(prereg_journal_filtered, aes(x = reorder(journ
 
 pd_stat_summary <- with(data, CrossTable(published_print_year, pd_bool, prop.chisq = FALSE, missing.include = FALSE))
 
-# Transform percentage data
+
 pd_perc_graph <- as_tibble(pd_stat_summary$prop.row) %>%
   rename(year = x, pd_bool = y, percent = n) %>%
   filter(pd_bool == 1) %>%

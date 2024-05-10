@@ -19,8 +19,8 @@ Our study design called for a comprehensive analysis of population-level data. O
 ## Phase one: gathering and classifying the papers
 
 > Code: 
-> 	 - /code/R_organised/1.1_pull-crossref-data.R # Gets data from crossref for each journal, dumps it out in a folder named and date-stamped
-> 	 - /code/R_organised/1.2_join-clean-crossref-data.R #  # Cleans that data
+> 	 - /code/R_updated/1.1_pull-crossref-data.R # Gets data from crossref for each journal, dumps it out in a folder named and date-stamped
+> 	 - /code/R_updated/1.2_join-clean-crossref-data.R #  # Cleans that data
 
 Identifying the papers that relied on data, statistical analysis, and experiments was an iterative process. In each case we read target papers and devised a dictionary of terms meant to uniquely identify others like them. We extensively revised these dictionaries to arrive at terms that seemed to maximally discriminate for target reports. 
 
@@ -31,7 +31,7 @@ Identifying the papers that relied on data, statistical analysis, and experiment
 The dictionaries were then used with custom functions to create document feature matrices, where each paper is an observation, each column a dictionary term, and each cell a count of that term.^[A custom function was preferable to existing text analysis libraries like `quanteda` because of our need to capture regular expressions and asterisks.] The DFM format made the papers amenable to large-scale analysis. In machine learning parlance, this process is known as feature engineering.
 
 > Code files: 
-> 	- /code/R_organised/3.1_classify-fulltext-papers.R	
+> 	- /code/R_updated/3.1_classify-fulltext-papers.R	
 > 
 > Output files: 
 
@@ -53,7 +53,7 @@ For the second question --- examining what proportion of experiments were prereg
 We then trained two machine learning models --- the Support Vector Machine (SVM) and Naive Bayes (NB) binary classifiers --- to arrive at estimates for the total number of data analysis/statistical inference and experimental papers.^[As an additional robustness check to predict open data and statistical inference papers, we estimated a series of bivariate logistic regressions using the same DFMs. The predicted probability plots can be found in the appendix. These plots give a lower estimate than the machine learning models, though they are in the same broad range.] Note that in the final manuscript, we include only the SVM results and only the SVM results are now visible in the code. 
 
 > Code files: 
->	- /code/R_organised/3.1_classify-fulltext-papers.R
+>	- /code/R_updated/3.1_classify-fulltext-papers.R
 > 
 
 ## Phase two: Identifying open data and preregistrations
@@ -67,15 +67,15 @@ We attempted to identify open data resources in seven ways.
 3. We extracted from the full text of each paper in our corpus the link to its dataset on the Dataverse; note this had significant overlap with the results of the first and second queries);
 
 For the above, the code files: 
->   -  /code/R_organised/4.1_query-dataverse-with-titles.R
->   -  /code/R_organised/4.2_pull-dataverse-links-from-papers.R
+>   -  /code/R_updated/4.1_query-dataverse-with-titles.R
+>   -  /code/R_updated/4.2_pull-dataverse-links-from-papers.R
 	
 4. We downloaded the metadata listing the contents of these datasets, to confirm firstly that they had data in them, and secondly that it did not consist of only pdf or doc files. In cases where a list of metadata was not available via the Dataverse API, we scraped the html of the dataset entry and searched for text confirming the presence of data files;
 
 5. We used regular expressions to extract from the full text papers references to "replication data," "replication materials," "supplementary files" and similar terms, then searched in the surrounding text for any corresponding URLs or mentions of author websites;
 
 > Code files:
->    - /code/R_organised/4.4_precarious-data.R
+>    - /code/R_updated/4.4_precarious-data.R
 
 We termed this 'precarious data' and have reported the results in the paper. 
 
@@ -92,15 +92,15 @@ This analysis is in `./code/R_disorganised/test_precarious_data.R`
 7. As additional validation for DA-RT signatory journals specifically, we downloaded the html file corresponding to each article and/or the html file hosting supplemental material, then extracted all code and data-related file extensions to establish their open data status.
 
 > Code files:
-> 	- /code/R_organised/4.5_query-dart-journals.R
->	- /code/R_organised/4.3_query-jcr-jpr-data.R
+> 	- /code/R_updated/4.5_query-dart-journals.R
+>	- /code/R_updated/4.3_query-jcr-jpr-data.R
 
 We attempted to identify preregistration of experiments in the following ways:
 
 1. We used regular expressions to extract from all of the experimental papers sentences that referred to "prereg" or "pre-reg", as well as any references to commonly used preregistration servers (osf, egap, and aspredicted), and then searched for the availability of the corresponding link to validate that the preregistration had taken place. Parts of this process --- for instance, searching author names in the Experiments in Governance and Politics (EGAP) registry to look for the corresponding paper --- involved time-consuming detective work;
 
 > Code files:
-> 	- /code/R_organised/5.2_identify-prereg.R
+> 	- /code/R_updated/5.2_identify-prereg.R
 >	
 
 2. We downloaded all EGAP preregistration metadata in JSON format from the Open Science Foundation Registry (https://osf.io/registries/discover), extracted from this file all osf.io links and unique EGAP registry IDs, and used command line utilities to search for them through the corpus of all the papers.

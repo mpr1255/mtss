@@ -224,10 +224,6 @@ Statistical inference papers are infrequently accompanied by the datasets or cod
   \caption{Open data in statistical inference papers by journal (with over 200 papers)}
 \end{figure}
 
-<!-- 
-![Open data in statistical inference papers by journal (with over 200 papers)](./graphs/od_journal.png){width=90%}
--->
-
 The total number of statistical inference papers have gradually increased during the 12 year period. In 2010, we found `r comma(n_stat_bool_2010)` papers and `r comma(n_stat_bool_2020)` in 2020 -- the last year with complete data. This supports King's [-@King1990-hy] observation that political science and international relations have long been disciplines increasingly concerned with quantitative methods.^[Gary King illustrated that by 1988 almost half of publications in the American Political Science Review were quantitative.] While the percentage of papers with open data have increased, so too have the absolute number of statistical papers without it. There are simply more published papers making inferences based on hidden data.
 
 \begin{figure}[t]
@@ -235,10 +231,6 @@ The total number of statistical inference papers have gradually increased during
   \includegraphics[width=1\textwidth]{./graphs/dart_grid.png}
   \caption{Open data in statistical inference papers by year published in 16 of the 27 journals signatory to the DA-RT statement}
 \end{figure}
-
-<!-- 
-![Open data in statistical inference papers by year published in 16 journals signatory to the DA-RT statement](./graphs/dart_grid.png){width=85%}
---  >
 
 There are significant differences in open data practices between journals. Figure 2 displays the percentage of statistical inference papers with open data in the 41 journals with over 200 such papers.^[The cutoff was established to focus on journals who publish more quantitative papers and for ease of viewing -- the graph with all 158 journals with at least one statistical inference paper is very large and is located in the appendix.] The number above each journal's bin represents the number of statistical inference papers detected by the support vector machine classifier. Of the 41 journals, 11 have over 50% open data, and 16 have over 20%.^[The journals with over 50% open data are the \emph{American Journal of Political Science}, the \emph{American Political Science Review}, the \emph{British Journal of Political Science}, \emph{European Journal of Political Research}, \emph{International Interactions}, \emph{International Studies Quarterly}, \emph{Journal of Conflict Resolution}, \emph{Journal of Peace Research}, \emph{Journal of Politics}, \emph{Political Analysis}, and \emph{Political Science Research and Methods}. Those with over 20% open data include the aforementioned journals as well as \emph{Comparative Political Studies}, \emph{Conflict Management and Peace Science}, \emph{International Organisation}, \emph{Legislative Studies Quarterly}, and \emph{Political Behaviour}.] 
 
@@ -256,22 +248,13 @@ One caveat is that is that 2 of the 16 journal signatories have consistently low
   \caption{Preregistration in experiments by year}
 \end{figure}
 
-<!-- 
-![Preregistration in experiments by year](./graphs/prereg_time.png){width=80%}
--->
-
 The preregistration of experiments is rare in political science and international relations journals. Figure 4 shows that the first preregistered study in the dataset that we could identify was in 2013, and that the rate of preregistration only began climbing in 2016. The proportion of experiments that were preregistered for the entire period is approximately 5%; the annual rate has slowly risen to 16% in 2021. 
-
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=1\textwidth]{./graphs/prereg_journal.png}
   \caption{Preregistration in experiments by journal (with over 20 papers)}
 \end{figure}
-
-<!-- 
-![Preregistration in experiments by journal (with over 20 papers)](./graphs/prereg_journal.png)
--->
 
 Figure 5 shows the percentage of experiments that were preregistered in the 29 journals with more than 20 experiments. Only the \emph{American Political Science Review} exceeds 20%. Unlike with open data, when it comes to preregistration the differences between journals are small. Of the experiments published in \emph{Political Psychology} and \emph{Political Behaviour}, the two journals with the most experiments that bridge the gap between political science and psychology, only four and five percent respectively are preregistered. 
 
@@ -297,7 +280,7 @@ Identifying whether an experiment had a corresponding preregistration report was
 
 The difficulty of matching an experiment with its preregistration report is far smaller than matching a manuscript to a concealed preregistration report. A unique and unanticipated problem we found were authors publishing a study where they omitted any reference to a preregistered experiment -- ostensibly due to null findings. @byun2021geopolitical use their survey data to make descriptive claims while failing to discuss the design or results of their experimental manipulation [@Kim2021-prereg]. It is not clear whether their results failed to further their own argument or were possibly disconfirmatory. In either situation, readers are not permitted to transparently evaluate the strength of their claims. 
 
-Peer reviewers and readers of published works routinely examine whether a theory or explanation has appropriate evidence; whether the measurements are valid and reliable; whether the model has been appropriately specified. Here, we prompt referees and readers to also begin asking: (1) Are the computational reproducibility materials on the Harvard Dataverse or some other reliable repository? (2) Is the paper computationally reproducible based on those materials? (3) If an experiment, was it preregistered? (4) Does the analysis in the experimental paper follow the preregistration plan and are deviations from that plan justified?^[For experiments, we acknowledge that these are by no means definitive criteria on which to judge the trustworthiness of a paper or finding. These practices should accompany efforts to build confidence in a finding through direct and conceptual replications.] We hope that evaluating scientific research in this manner will help move readers away from trusting research in the absence of open science practices to a more informed trust in their presence. 
+Peer reviewers and readers of published works routinely examine whether a theory or explanation has appropriate evidence; whether the measurements are valid and reliable; whether the model has been appropriately specified. Here, we prompt referees and readers to also begin asking: (1) Are the computational reproducibility materials on the Harvard Dataverse or some other reliable repository? (2) Is the paper computationally reproducible based on those materials? (3) If an experiment, was it preregistered? (4) Does the analysis in the experimental paper follow the preregistration plan and are deviations from that plan justified?^[For experiments, we acknowledge that these are by no means definitive criteria on which to judge the trustworthiness of a paper or finding. These practices should accompany efforts to build confidence in a finding through direct and conceptual replications.] We hope that evaluating scientific research in this manner will help move readers away from trusting research in the absence of open science practices to a more informed trust in their presence.
 
 \newpage
 

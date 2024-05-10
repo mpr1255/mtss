@@ -19,6 +19,8 @@ Indeed. Our challenge was to balance the sheer complexity and tediousness of the
 
 <!-- Describe SVM confusion matrix -->
 
+As recommended by reviewer 1, we have added the confusion matrices for statistical inference and experiment paper classification in the appendix -- as well as refer to their accuracy in the paper. 
+
 (@) *One reviewer suggests providing policy prescriptions — it is up to the authors whether they follow this suggestion, but from my perspective I do not think it is necessary in an empirical paper that is not specifically evaluating the policy being advocated for. If the authors do offer policy suggestions, they should make clear whether their suggestions are directly evidence-based or merely speculations inspired by the evidence.*
 
 Given that this is a descriptive paper, we indeed prefer to hold off on policy recommendations for the time being. We identify that the journals whose editors were signatories to the Data Access and Research Transparency (DA-RT) statement have followed through and open data rates have increased to their intended levels. While very important, we cannot speak to how to incentivise non-DA-RT journal editors to adopt the reforms the DA-RT statement advises. We continue to think about the types of policies and practices that would encourage and facilitate transparent research practices, and we have some more work planned in this area.
@@ -71,7 +73,7 @@ We have reduced the length of the manuscript considerably.
 
 (@) *Dictionary based text analysis is 3-4 scholarly generations of text analysis behind the cutting edge.  This should be replaced with modern automated text analysis methods, maybe even LLMs. But whatever you use (perhaps even dictionary based methods), the authors must have some validation that their method does what they claim.*
 
-We spent a great deal of time addressing this piece of feedback, going some way to building out an LLM classification pipeline, but in the end abandoned it due to time and resource constraints. A more detailed account of this follows below. However, in the end it made most sense to stick with the SVM model we already have in the paper. We've now added a confusion matrix and further explanations. We do not think that the age of the technique is the most important factor (Gauss discovered regression in 1795), but its accuracy and suitability for the task at hand. We have expanded on this in the paper, and we hope the confusion matrix helps.
+We spent a great deal of time addressing this piece of feedback, going some way to building out an LLM classification pipeline, but in the end abandoned it due to time and resource constraints. A more detailed account of this follows below. However, in the end it made most sense to stick with the SVM model we already have in the paper. We've now added a confusion matrix and further explanations. We do not think that the age of the technique is the most important factor, but its accuracy and suitability for the task at hand. We have expanded on this in the paper, and we hope the confusion matrix helps.
 
 ## Our attempts at using an LLM classifier
 
@@ -87,7 +89,7 @@ Our process was as follows:
 
 * We did some experimental tests on the terminal using the Anthropic API, then moved this to a python script after confirming functionality.
 
-* We selected a random sample of 100 papers from the pool of 1,624 previously hand-coded papers, which included both papers that use statistical inference (stat_bool = 1) and those that do not (stat_bool = 0). Because the majority of the rows are 0s, to ensure a sufficient representation of papers using statistical inference we disproportionately allocated 70 samples to papers with stat_bool = 1 and 30 samples to papers with stat_bool = 0. This stratified sampling approach allowed us to assess the model's performance with an emphasis on its sensitivity (recall) in the first stage.
+* We selected a random sample of 100 papers from the pool of 1,624 previously hand-coded papers, which included both papers that use statistical inference (stat_bool = 1) and those that do not (stat_bool = 0). Because the majority of the rows are 0s, to ensure a sufficient representation of papers using statistical inference we disproportionately allocated 70 samples to papers with stat_bool = 1 and 30 samples to papers with stat_bool = 0. We employed this stratified sampling approach to oversample the minority class (papers with stat_bool = 1) because we wanted to gather more data on the model's performance in terms of true positive rate (TPR) or recall for the positive class, before proceeding to evaluate its performance on the majority class (papers with stat_bool = 0).
 
 * We then began experimenting with the prompt, manipulating a variety of parameters in an attempt to optimize both classification accuracy and resource use. Because we have around 1.5 billion tokens of text in our corpus, and we are paying for the model inference personally, we sought to save money by truncating parts of the article and sending it to the model with a prompt telling the model to perform a classification.
 
@@ -117,7 +119,7 @@ We appreciate this feedback and agree that the first half of the paper can be co
 
 (@) *As with very complex computational projects, it is difficult to fully describe the procedures in the text, and not everything can or should be fully described. However, to me, the discussion of the procedures seemed slightly on the sparse side. For example, what do the authors mean by “statistical inference paper”? The definition is a little vague. Examples: What CrossRef metadata do the authors use? How complete and accurate is the published.print variable? How does CrossRef record the published.print variable for online-only journals? When the PDF is converted to plain text, how are URLs preserved? How accurate is the conversion? How many of the PDFs require OCR? Why don't the authors use HTML? What do the authors mean by “UNIX command line utilities” and OCR software? What procedure did the authors follow to revise dictionaries and evaluate discrimination?*
 
-As mentioned above, we have expanded the discussion of the methods in the paper, hopefully addressing these questions and concerns. We hope the extended length will not pose a problem. A clear definition of a "statistical inference paper" has also now been provided. Where the explanation was thought to be tedious we kept in brief in the paper, added a footnote, and pointed interested readers to a code file that demonstrates the idea or discovery.
+As mentioned above, we have expanded the discussion of the methods in the paper, hopefully addressing these questions and concerns. We hope the extended length will not pose a problem. A clear definition of a "statistical inference paper" has also now been provided. Where we sensed the explanation might become tedious we tried to keep it brief, added a footnote, and pointed interested readers to a code file that demonstrates the idea or discovery.
 
 Some issues we did not address in the paper, for reasons of space and focus: 
 
@@ -144,11 +146,11 @@ We are embarrassed by our inattentiveness to this, and only discovered it in a c
 
 We do not think that this impacts our findings or the integrity of the paper. With the exception of "Politics and Governance," the other seven journals do not appear to publish much in the way of quantitative political science. 
 
-Note that the `.R` file with this analysis is in the `./rr_code/rr_crossref_date_field_choice_analysis.R` file, with comments.
+Note that the `.R` file with this analysis is in the `./rr_code/code/rr_crossref_analysis.R` file, with comments.
 
 As for the other questions, such as PDF conversion to text and more: We've updated the manuscript to make our process clearer. 
 
-Briefly: Optical character recognition was only used interactively on the command line, but the majority of the pipeline used `R` wrapped on the `pdftotext` command line utility, which uses Poppler, a well-known open source pdf wrangling library. The pdfs were mostly clean, and the conversions were high quality (again, based on randomly sampling them and looking at the outputs). URLs were converted like any other string. Of course, linebreaks and other issues meant that they were broken in some cases, and in those instances we simply painstakingly constructed (pre-ChatGPT) regular expressions to try to capture them (based on fragments of the URL), and stitched them back together. This is in the `dataverse_2_link_to_papers.R` file, for instance.
+Briefly: Optical character recognition was only used interactively on the command line, but the majority of the pipeline used `R` wrapped on the `pdftotext` command line utility, which uses Poppler, a well-known open source pdf wrangling library. The pdfs were mostly clean, and the conversions were high quality (again, based on randomly sampling them and looking at the outputs). URLs were converted like any other string. Of course, linebreaks and other issues meant that they were broken in some cases, and in those instances we simply painstakingly constructed (pre-ChatGPT) regular expressions to try to capture them (based on fragments of the URL), and stitched them back together. This is in the `4.1b_dataverse_link_to_papers.R` file, for instance.
 
 As for HTML -- we in fact later did switch to html, and have just over 20,000 HTML files. Our reason for PDF in the first place was mostly convenience: We could use a GUI like Zotero to do large-scale downloading, which seems to have a better time accessing data from publishers than a scraper running in the browser.
 
@@ -164,7 +166,7 @@ This is a good point. We further detailed in that section that we also searched 
 
 This was a very helpful comment and led to some changes throughout the manuscript. Many journals publish both types of papers, and it is conceptually fraught to dichotomize the two. We have changed Figure 1 and removed the PS and IR labels -- we now report the proportion of all statistical inference papers with a linked open data repository in each year for PSIR combined.
 
-By way of background: We initially followed the typology of the Journal Citation Report 2020 (JCR), which are listed in Appendix Table 1. However, upon reflection these are somewhat arbitrary, and after scrutinising the list more closely we find journals coded as solely PS or IR publish articles belonging to the other category. So we've dropped this distinction.
+By way of background: We initially followed the typology of the Journal Citation Report 2020 (JCR), which are listed in Appendix Table 1. However, upon reflection these are somewhat arbitrary, and after scrutinising the list more closely we find journals coded as solely PS or IR which publish articles belonging to the other category. So we've dropped this distinction.
 
 (@) *Overall, the results section seemed a little sparse. It’s hard for me to make a concrete suggestion here, other than I expected a lot more detail. The authors have collected a rich, comprehensive dataset; it seems at least worth plotting the time series for each journal, perhaps after dividing the 170ish journals into several categories to prevent over-plotting. It also seems worth describing in a lot of detail the status quo—what does the availability rate look like across the 170ish journals for the most recent year in the dataset? How many have no replication data available? How many are above 50%? How many above 90%? These are ideas, but the authors will have much better ideas of what their data can show.*
 
@@ -172,4 +174,4 @@ By way of background: We initially followed the typology of the Journal Citation
 
 (@) *Lastly, I think the authors are in a good position to make policy prescriptions. What can political science do to improve? What should authors do? What should journals ask, encourage, and require? What infrastructure should we use and/or develop? What can other disciplines learn from political science?*
 
-We have a lot of thoughts and ideas for policies and technological affordances that could facilitate better practices, but they are still unrefined. We want to keep this a straightforward descriptive paper, and once we've done more research propose some recommendations for publishers and others in the scientific community to improve transparency in social science and beyond.
+We have a lot of thoughts and ideas for policies and technological affordances that could facilitate better practices, but they are still unrefined. We hope for our first contribution to the issue to be straightforward and descriptive. In subsequent work we hope to propose recommendations for publishers and others in the scientific community to improve transparency in social science and beyond.

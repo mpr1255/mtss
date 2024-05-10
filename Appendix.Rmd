@@ -47,7 +47,13 @@ combined_jcr <- merge(jcr_ps, jcr_ir, all = TRUE) %>%
   ungroup() %>%
   pivot_wider(names_from = row_id, values_from = Category, names_prefix = "Category_") %>%
   select(c(Journal.name, Category_1, Category_2, X2020.JIF)) %>%
-  arrange(desc(X2020.JIF))
+  rename(
+    `Journal name` = Journal.name,
+    `Category 1` = Category_1,
+    `Category 2` = Category_2,
+    `JIF 2020` = X2020.JIF
+  ) %>% 
+  arrange(desc(`JIF 2020`))
 
 kableExtra::kable(combined_jcr, caption = "Journals analysed as ranked by Journal Citation Report 2020.",
       format="latex", booktabs=TRUE, longtable = TRUE) %>%
@@ -63,7 +69,16 @@ kableExtra::kable(combined_jcr, caption = "Journals analysed as ranked by Journa
 \begin{figure}
   \centering
   \includegraphics[width=1\textwidth]{./graphs/stat_inf_svm_plot.png}
-  \caption{Support vector machine (SVM) confusion matrix.}
+  \caption{Support vector machine (SVM) confusion matrix for statistical inference paper classification.}
+\end{figure}
+```
+
+\newpage
+```{=tex}
+\begin{figure}
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/experiment_svm_plot.png}
+  \caption{Support vector machine (SVM) confusion matrix for experiment paper classification.}
 \end{figure}
 ```
 

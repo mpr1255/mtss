@@ -1,5 +1,7 @@
 # Replication materials for "Measuring Transparency in the Social Sciences"
 
+[![DOI](https://zenodo.org/badge/{github_id}.svg)](https://zenodo.org/badge/latestdoi/798607460)
+
 The following is a walk-through of the methods we used for the paper "Measuring Transparency in the Social Sciences." It is written in an informal style and goes into more detail than the paper allowed in order to explain the technical details and the specific code files that do the work for the project.
 
 Much of the repository is messy. We beg the reader's clemency. The project was exploratory and iterative, and it was difficult to conceptualise at the beginning how the workflow could have been turned into an end-to-end pipeline while it was still being constructed. Future work in this area will not suffer the same deficit. Nevertheless, the following should give a sense for how the project came together and provide enough information for an interested reader to reconstruct our steps.

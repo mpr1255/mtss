@@ -2,7 +2,7 @@ source("./code/R/libs.R")
 
 ########################################################################################################
 # 
-# This script picks up where dataverse_1_query_it left off.
+# This script picks up where 4.1a_dataverse_query_journals.R left off.
 #
 # Recall that none of the Dataverse metadata fields contain the actual doi of the article. 
 # 

@@ -8,28 +8,15 @@ here <- rprojroot::find_rstudio_root_file()
 
 data <- read.csv(glue("{here}/output/109k_papers_all_coded_for_pub1.csv"))
 
-# Edit dataset variables ----
-
-## Edit variables for SI and DA 
-data$od_stat_bool <- ifelse(data$stat_bool!=1, NA, 
-                            ifelse(data$od_bool == 1, 1, 0))
-
-data$od_stat_bool <- recode_factor(data$od_stat_bool, "1" = "Open Data",
-                                   "0" = "No Data")
-
-data$od_data_bool <- ifelse(data$data_bool!=1, NA, 
-                            ifelse(data$od_bool == 1, 1, 0))
-
-data$journal_name <- factor(data$journal_name)
-
-data$od_stat_bool <- factor(data$od_stat_bool)
-
-## Edit variables for preregistration
-data$prereg_bool <- ifelse(data$exp_bool !=1, NA,
-                           ifelse(data$prereg_score == 2, 1, 0))
-
-data$prereg_bool <- recode_factor(data$prereg_bool, "1" = "Preregistered",
-                                  "0" = "Not preregistered")
+# Edit dataset variables
+data <- data %>%
+  mutate(
+    od_stat_bool = ifelse(stat_bool != 1, NA, ifelse(od_bool == 1, "Open Data", "No Data")),
+    od_data_bool = ifelse(data_bool != 1, NA, ifelse(od_bool == 1, 1, 0)),
+    prereg_bool = ifelse(exp_bool != 1, NA, ifelse(prereg_score == 2, "Preregistered", "Not preregistered")),
+    pd_bool = ifelse(stat_bool != 1, NA, pd_bool),
+    journal_name = factor(journal_name)
+  )
 
 # OD just for journals that are DART signatories over time ---
 

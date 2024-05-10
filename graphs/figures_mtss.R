@@ -283,6 +283,156 @@ pd_perc_graph <- as_tibble(pd_stat_summary$prop.row) %>%
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
+# Open data by journal in 2020 ====
+
+# Filter for 2020
+data_2020 <- data %>% filter(published_print_year == "2020")
+
+# Edit journal titles that were not abbreviated
+od_stat_journals_2020 <- with(data_2020, CrossTable(abbrev_name, od_stat_bool, 
+                                                    prop.chisq = FALSE, missing.include = FALSE))
+
+# Convert to data.table and rename columns
+od_stat_journals_zeros_2020 <- as.data.table(od_stat_journals_2020$t)
+colnames(od_stat_journals_zeros_2020) <- c("journal_name", "od_bool", "total")
+
+# Remove journals that have no SI papers and adjust total
+od_stat_journals_zeros_2020 <- od_stat_journals_zeros_2020 %>% 
+  filter(od_bool == "No Data") %>% 
+  mutate(total = ifelse(total != 0, 1, 2)) %>% 
+  select(-od_bool)
+
+# Create var with total stat_bool papers per journal
+od_stat_journals_zeros_filtered_2020 <- CrossTable(data_2020$abbrev_name, data_2020$stat_bool, 
+                                                   prop.chisq = FALSE, missing.include = FALSE)
+
+od_stat_journals_zeros_filtered_2020 <- as.data.table(od_stat_journals_zeros_filtered_2020$t)
+colnames(od_stat_journals_zeros_filtered_2020) <- c("journal_name", "stat_bool", "total_stat")
+
+od_stat_journals_zeros_filtered_2020 <- od_stat_journals_zeros_filtered_2020 %>% 
+  filter(stat_bool == 1) %>% 
+  select(-stat_bool)
+
+# Merge and filter
+od_stat_journals_zeros_filtered_2020 <- od_stat_journals_zeros_filtered_2020 %>% 
+  merge(od_stat_journals_zeros_2020, by = "journal_name") %>% 
+  filter(total != 2)
+
+# Graph OD by journals
+od_perc_journals_2020 <- as.data.table(od_stat_journals_2020$prop.row)
+colnames(od_perc_journals_2020) <- c("journal_name", "od_bool", "percent")
+
+od_journal_filtered_2020 <- od_perc_journals_2020 %>% 
+  filter(od_bool == "Open Data") %>% 
+  merge(od_stat_journals_zeros_filtered_2020, by = "journal_name") %>% 
+  mutate(percent = percent * 100)
+
+# Plot
+od_journal_graph_2020 <- ggplot(od_journal_filtered_2020, aes(x = reorder(journal_name, -percent), y = percent, group = 1)) + 
+  geom_bar(stat = "identity") + 
+  scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100), expand = c(0, 0)) +
+  geom_text(aes(label = total_stat), position = position_dodge(width = 0.9),
+            colour = "black", size = 2.25, vjust = -0.25) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 55, hjust = 1)) +
+  labs(title = "", x = "", y = "Percent") +
+  theme(legend.position = "bottom",
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+# Filter OD graphs by journal for papers with over 20 SI papers
+
+od_journal_filtered_2020_20 <- filter(od_journal_filtered_2020, total_stat >=20)
+
+od_journal_graph_2020_20 <- ggplot(od_journal_filtered_2020_20, aes(x=reorder(journal_name, -percent), y=percent, group = 1)) + geom_bar(stat="identity") + 
+  scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0,100), expand = c(0, 0)) +
+  geom_text(
+    aes(label = total_stat), position=position_dodge(width=0.9),
+    colour = "black", size = 3,
+    vjust = -0.25) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 55, hjust=1)) +
+  labs(title = "",
+       x = "", y = "Percent") +
+  theme(legend.position = "bottom",
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+# Preregistration by journal in 2020 ====
+
+# Edit journal titles that were not abbreviated
+prereg_journals_2020 <- with(data_2020, CrossTable(abbrev_name, prereg_bool, 
+                                                   prop.chisq = FALSE, missing.include = FALSE))
+
+# Convert to data.table and rename columns
+prereg_journal_zeros_2020 <- as.data.table(prereg_journals_2020$t)
+colnames(prereg_journal_zeros_2020) <- c("journal_name", "prereg", "total")
+
+# Create variable with total number of experiments by journal
+prereg_journal_zeros_1_2020 <- prereg_journal_zeros_2020 %>% 
+  filter(prereg == "Preregistered") %>% 
+  rename(was_prereg = total) %>% 
+  select(-prereg)
+
+prereg_journal_zeros_2_2020 <- prereg_journal_zeros_2020 %>% 
+  filter(prereg == "Not preregistered") %>% 
+  rename(no_prereg = total) %>% 
+  select(-prereg)
+
+# Merge and calculate totals
+prereg_journal_zeros_filtered_2020 <- merge(prereg_journal_zeros_1_2020, prereg_journal_zeros_2_2020, by = "journal_name")
+prereg_journal_zeros_filtered_2020 <- prereg_journal_zeros_filtered_2020 %>% 
+  mutate(total_exp = was_prereg + no_prereg,
+         no_prereg = ifelse(no_prereg != 0, 1, 2))
+
+# Graph
+prereg_perc_journals_2020 <- as.data.table(prereg_journals_2020$prop.row)
+colnames(prereg_perc_journals_2020) <- c("journal_name", "prereg", "percent")
+
+prereg_journal_filtered_2020 <- prereg_perc_journals_2020 %>% 
+  filter(prereg == "Preregistered") %>% 
+  merge(prereg_journal_zeros_filtered_2020, by = "journal_name") %>% 
+  filter(no_prereg != 2) %>% 
+  mutate(percent = percent * 100)
+
+# Plot
+prereg_journal_graph_2020 <- ggplot(prereg_journal_filtered_2020, aes(x = reorder(journal_name, -percent), y = percent, group = 1)) + 
+  geom_bar(position = 'dodge', stat = "identity") + 
+  scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100), expand = c(0, 0)) +
+  geom_text(aes(label = total_exp), position = position_dodge(width = 0.9),
+            colour = "black", size = 2.25, vjust = -0.25) +
+  theme_bw() +
+  labs(title = "", x = "", y = "Percent") +
+  theme(axis.text.x = element_text(angle = 55, hjust=1),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+# Include only journals with 20 or more experimental papers
+prereg_journal_filtered_2020_20 <- filter(prereg_journal_filtered_2020, total_exp >=5)
+
+prereg_journal_graph_2020_20 <- ggplot(prereg_journal_filtered_2020_20, aes(x=reorder(journal_name, -percent), y=percent, group = 1)) + 
+  geom_bar(position = 'dodge', stat="identity") + 
+  scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0,100), expand = c(0, 0)) +
+  geom_text(
+    aes(label = total_exp), position=position_dodge(width=0.9),
+    colour = "black", size = 3,
+    vjust = -0.25) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 55, hjust=1)) +
+  labs(title = "",
+       x = "", y = "Percent") +
+  theme(legend.position = "bottom",
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
 # Save graphs ====
 
 ggsave("graphs/od_time.png",

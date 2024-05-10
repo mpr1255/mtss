@@ -3,7 +3,7 @@ source("./code/R/libs.R")
 ####################################################################################
 # 
 # Explanation:
-# This file and dataverse_2_link_to_papers query the dataverse and then link the results to the papers -- and vice versa. # Note that "Dataverse" (capital) refers to the Harvard Dataverse, whereas "dataverse" is simply a regular noun,
+# This file and 4.1b_dataverse_link_to_papers.R query the dataverse and then link the results to the papers -- and vice versa. # Note that "Dataverse" (capital) refers to the Harvard Dataverse, whereas "dataverse" is simply a regular noun,
 #  typically referring to the dataverse belonging to each journal. I.e. the Harvard Dataverse hosts dataverses run 
 #  by each journal. 
 # 

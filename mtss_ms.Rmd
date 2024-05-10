@@ -1,0 +1,318 @@
+---
+title: "\\singlespacing \\fontsize{18pt}{1pt}\\textbf{Measuring Transparency in the Social Sciences: Political Science and International Relations}"
+output: 
+  pdf_document:
+    number_sections: true
+author: 
+  - "Bermond Scoggins^[PhD Candidate, School of Politics and International Relations, Australian National University. Corresponding author. Email: bermond.scoggins@anu.edu.au.]"
+  - "Matthew P. Robertson^[PhD Candidate, School of Politics and International Relations, Australian National University. Senior Research Associate, Chair of Social Data Science, University of Mannheim. Email: matthew.peter.robertson@uni-mannheim.de]]"
+date: "Latest version: `r format(Sys.time(), '%d %B, %Y')`"
+abstract: "\\singlespacing \\noindent The scientific method is predicated on transparency -- yet the pace at which transparent research practices are being adopted by the scientific community is slow. The replication crisis in psychology showed that published findings employing statistical inference are threatened by undetected errors, data manipulation, and data falsification. To mitigate these problems and bolster research credibility, open data and preregistration practices have gained traction in the natural and social sciences. However, the extent of their adoption in different disciplines are unknown. We introduce computational procedures to identify the transparency of a research field using large-scale text analysis and machine learning classifiers. Using political science and international relations as an illustrative case, we examine 93,931 articles across the top 160 political science and international relations journals between 2010 and 2021. We find that approximately 21% of all statistical inference papers have open data and 5% of all experiments are preregistered. Despite this shortfall, the example of leading journals in the field shows that change is feasible and can be effected quickly."
+fontsize: 
+  12pt
+geometry:
+  margin = 1in
+header-includes:
+    - \usepackage{setspace}\doublespacing
+    - \usepackage{float}
+    - \usepackage{setspace}
+    - \usepackage{adjustbox}
+    - \usepackage{xcolor}
+    - \doublespacing
+    - \setlength{\parindent}{0.8cm}
+    - \setlength {\marginparwidth }{2cm}
+    - \DeclareUnicodeCharacter{0301}{\'{e}}
+bibliography: mtss_references.bib
+---
+```{r loading_vars, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, cache = TRUE)
+
+library(data.table)
+library(glue)
+library(magrittr)
+library(stringr)
+library(readr)
+library(scales)
+
+
+here <- rprojroot::find_rstudio_root_file()
+
+dt <- fread(paste0(here, "/output/109k_papers_all_coded_for_pub1.csv"))
+n_total_papers <- dt[,uniqueN(doi)]
+n_total_journals <- dt[,uniqueN(journal_name)]
+n_total_stat <- dt[stat_bool == 1, .N]
+n_total_data <- dt[data_bool == 1, .N]
+n_total_exp <- dt[exp_bool == 1, .N]
+n_percent_stat_match <- round(dt[stat_bool == 1 & od_bool, .N]/dt[stat_bool == 1, .N]*100, 1)
+n_percent_data_match <- round(dt[data_bool == 1 & od_bool, .N]/dt[data_bool == 1, .N]*100, 1)
+n_stat_bool_2010 <- nrow(dt[stat_bool == 1 & published_print_year == 2010])
+n_stat_bool_2020 <- nrow(dt[stat_bool == 1 & published_print_year == 2020])
+n_dart_2016_journals_in_our_data <- length(read_lines("./output/dart_2016_journals_in_our_data.txt"))
+# rm(dt)
+
+n_potential_exp <- nrow(fread(glue("{here}/output/experimental_count_20210902.csv")))
+
+dt2 <- fread(paste0(here, "/output/jcr_combined_list.csv"))
+n_total_combined_journals_clarivate <- length(unique(dt2$journal_name))
+n_exp_dict <- nrow(fread(glue("{here}/output/experimental_dict.txt"), head = F, sep = NULL))
+n_stat_dict <- nrow(fread(glue("{here}/output/quant_dict_w_cats.txt"))[type == "stat"])
+n_data_dict <- nrow(fread(glue("{here}/output/quant_dict_w_cats.txt"))[type == "data"])
+n_game_dict <- nrow(fread(glue("{here}/output/game_theory_dict.txt")))
+
+handcoded_dasi <- fread(glue("{here}/output/round2_3_handcoded_clean.csv"))
+n_handcoded_dasi <- nrow(handcoded_dasi)
+n_handcoded_data <- handcoded_dasi[data_bool == 1, .N]
+n_handcoded_stat <- handcoded_dasi[stat_bool == 1, .N]
+n_handcoded_exp <- nrow(fread(glue("{here}/output/experiment_handcodes_round2.csv")))
+
+# this stands in for the total number of txt files since each of these has been given a stat_bool.
+n_total_txt <- nrow(fread(glue("{here}/output/production_stat_bool_prediction1_20210909.csv")))
+
+svm_stat_test_res <- round(read_lines(glue("{here}/output/ml_svm_stat_test.txt"))[3] %>% str_match(., "Accuracy.*?,") %>% parse_number * 100, 2)
+svm_data_test_res <- round(read_lines(glue("{here}/output/ml_svm_data_test.txt"))[3] %>% str_match(., "Accuracy.*?,") %>% parse_number * 100, 2)
+svm_exp_test_res <- round(read_lines(glue("{here}/output/ml_svm_exp_test.txt"))[3] %>% str_match(., "Accuracy.*?,") %>% parse_number * 100, 2)
+
+n_extracted_dv_links_from_full_text_papers <- nrow(fread(glue("{here}/output/extracted_dv_links_and_dois.csv")))
+
+```
+\newpage 
+
+# Introduction
+
+The Royal Society has as its motto the injunction \emph{Nullius in verba}: "Take nobody's word for it." Yet a large portion of published studies in the social sciences demand of the reader exactly this. 
+
+Over the past several decades, open science advocates have called for the routinization of open science practices such as posting data and code upon a paper's publication and the preregistration of experiments [@king1995replication]. Beginning principally in the psychological sciences, advocacy for these reforms rose in the 2010s due to large-scale replication failures of prominent psychological studies which highlighted the widespread presence of false positive findings [@Simmons2011-tp; @Open_Science_Collaboration2015-gk].
+
+Open science practices bolster the credibility of a field and its findings by allowing readers to evaluate the methods by which researchers reach their conclusions. While trust is the currency of every epistemic community, the demand for trust alone weakens credibility. If data and code are available, interested researchers can ensure a finding's results are computationally reproducible, robust to alternate model specifications, and error free. For experiments (i.e. randomised controlled trials), preregistration allows the reader to determine whether there was the selective exclusion of hypotheses, measurements, or statistical analyses that run counter to the author's favored hypotheses.
+
+Concern for research transparency has become more salient over the past decade as scholars recognize that the accumulation of false positives can drive unsuccessful decision-making and interventions. This leads to inefficient resource allocation and weakens the credibility of a field. In fields like medicine, open science practices have been strongly advocated in recognition of the direct harm that false positives can cause [@NAP26308; @Baggerly-2009]. Leading journals in political science and international relations are increasingly mandating the provision of data and code, as well as encouraging the preregistration of experiments. 
+
+We distinguish the practice of making data and code available post-publication, thereby allowing researchers to determine what we hereafter refer to as the computational reproducibility of a paper's results, from replicibility -- where new data is collected using an identical or conceptually similar design to the original paper [@nosek2020replication; @obels2020analysis]. Different fields refer to these practices in ways that can be confusing. Political science, unlike psychology, conducts fewer experimental studies and what they refer to as a replication study aims at assessing computational reproducibility [see @king1995replication; @monroe2018rush]. 
+
+Political science and international relations appear to have taken open science practices seriously, with high-profile journals and academics endorsing initiatives like the Data Access and Research Transparency (DA-RT) statement. This has lead some scholars to believe that the open data problem has mostly been solved. Yet current assessments of the field's progress have been based on relatively small samples and time-intensive human coding procedures [@Key2016-vr; @Stockemer2018-qg; @Grossman2020-yv].^[@Key2016-vr analyses 586 articles in six top political science and international relations journals -- some of which have already adopted compulsory data availability policies -- for 2014 and 2015. @Stockemer2018-qg analyse data availability in the articles of three journals in 2015. Grossman and Pedahzur [-@Grossman2020-yv, 1] analyze 92 articles published in the Fall 2019 issues of six journals and argue that the field is now approaching a "replicability utopia".] 
+
+Our paper presents the largest-scale study of open science practices in political science and international relations thus far; it is also the first systematic study of the prevalence of preregistration in experiments in these fields. Our study spans the years 2010 to 2021 and includes population-level data, allowing us illustrate trends in specific journals. Documenting such trends is important given the key role played by journals in promulgating and enforcing transparent research norms.
+
+We ask two questions: (1) What proportion of papers that rely on statistical inference make their data and code public? (2) What proportion of experimental studies were preregistered? We gather `r comma(n_total_txt)` published articles from the top 160 journals ranked by Clarivate's Journal Citation Reports [-@JCR2020] and use machine learning classifiers to identify either statistical inference or experimental papers.^[A complete list of the journals can be found in the appendix.] We identify which had open data and preregistration using public application programming interfaces (API), text analysis, and web scraping.
+
+## The state of open political science practices
+
+Since the onset of the replication crisis, how much of the literature dependent on data and statistical inference still relies solely on reader trust? Extant research on the prevalence of open data practices in political science paints a sobering picture. Stockemer, Koehler, and Lentz's [-@Stockemer2018-qg] analysis of 145 quantitative studies published in three journals during 2015 found that only 55% provided original data and 56% provided code.^[The three journals are \emph{Electoral Studies}, \emph{Party Politics}, \emph{Journal of Elections, Public Opinion, and Parties} were analysed.] An earlier analysis, conducted on 494 quantitative articles in six leading political science journals between 2013 and 2014, found that full computational reproducibility materials (data and code) were available for only 58% of papers [@Key2016-vr].^[The six journals analysed were \emph{American Political Science Review}, \emph{American Journal of Political Science}, \emph{British Journal of Political Science}, \emph{International Organization}, \emph{Journal of Politics}, \emph{Political Analysis}.]
+
+Poor data availability affects many natural and social science disciplines [@Culina2020-xr; @Errington2021-zg]. A random sample of 250 psychology papers published between 2014 and 2017 estimated that 14% of papers shared research materials, 2% provided original data, and 1% shared their code [@Hardwicke2021-fp]. Preregistration was rare (3%). Similarly, even once data is shared, analytic reprodubility is not guaranteed [@hardwicke2021analytic].
+
+A tonic for many of these problems is straightforward: computational reproducibility materials for all quantitative studies and preregistration for experiments. Reproducibility materials and preregistration militates against questionable research practices (QRPs) that lead to false positives by constraining researcher degrees of freedom and ensuring that key decisions made in the analysis process are transparent to peers.
+
+In the behavioural sciences, false positives can arise from decisions that are rationalised as legitimate by authors: failing to report all dependent variables in a study, collecting more data after seeing whether the results were statistically significant, failing to report all conditions, stopping data collection after achieving the desired result, rounding down p-values, selectively reporting studies that ‘worked’, selectively excluding observations, and claiming an unexpected finding was predicted (or hypothesising after results are known). However, these practices obfuscate the uncertainty around a particular set of claims and mislead readers into being overconfident about a study’s conclusions. 
+
+The use of QRPs appears to be widespread in many of the social sciences. Surveys of psychology and criminology researchers report they routinely do not report all dependent variables, collect more data after peeking at results, and selectively report statistically significant studies [@John2012-vj; @Chin2021-px]. Other methods of detecting publication bias, such as analysing sets of studies or literatures using a p-curve or z-curve, reveal extensive clustering of p-values (z-scores) just past p < 0.05 [@Simonsohn2014-qg; @Bartos_2020-ar]. Examples of these problems in the behavioural and social sciences range from the power posing literature [@Simmons2017-rs] to economic research using instrumental variables and difference-in-differences [@Brodeur2020-ld]. 
+
+In recognition of these problems, professional organisations in political science and international relations, including the American Political Science Association (APSA), have led efforts to increase the availability of data and code that accompany published papers. The DA-RT statement developed by the APSA council in 2014 involved a commitment by journal editor signatories to increase the availability of data "at the time of publication through a trusted digital repository", as well as require authors to "delineate clearly the analytic procedures upon which their published claims rely, and where possible to provide access to all relevant analytic materials" [@JETS_2015-mm]. 
+
+While there was an intramural debate about how DA-RT standards would affect qualitative work, given the heterogeneity of interview data and other forms of qualitative analysis, we bypass these arguments in this paper by focusing exclusively on papers relying on statistical inference.^[Summaries of these debates can be found in Lupia and Elman [-@Lupia2014-mn] and on the Dialogue on DART website [@dialogue-dart].] It is relatively straightforward for researchers using statistical inference to release the very data and code that were necessary to produce the results in their papers. As Key [-@Key2016-vr] notes, the internet has reduced the cost for journals to set up Dataverse repositories and made it easier for researchers to share their data and code. Rising usage of free statistical programming software, such as `R` and its desktop application RStudio, also reduces barriers to computational reproducibility. 
+
+The 27 journal editors who adopted the statement agreed to implement reforms by January 2016. Of the 16 DA-RT signatory journals in our dataset, two made no change in practice and a further four have data and code that is difficult to accurately estimate.^[We discuss these issues further in the results section.]
+
+## The need for open data
+
+### Uncovering data errors and misinterpretation
+
+Errors in data or the misreporting of p-values or test statistics invariably occur in research and can go undetected by an article's authors or peer reviewers. These problems, if addressed, may substantively alter an article's conclusions or produce null rather than positive results. Reporting errors in regression coefficients or test statistics occur frequently [@Nuijten2016-dp]. 
+
+Access to the original data can help determine whether errors are trivial, and contribute to retraction efforts if they are not [@YouthSoc_2020-ut]. In some cases, access to the data allows for detailed concerns with a paper's analysis to be illustrated without the journal believing a retraction is warranted [see @Hilgard_2020-lg; @Hilgard_2021_wb]. 
+
+### Identifying model misspecification and facilitating extension
+
+Researchers have tremendous flexibility in deciding how to collect data and which statistical models should be specified to analyse them. Andrew Gelman has termed this process the 'garden of the forking paths' [-@Gelman2014-wz]: some set of decisions might yield a positive result, while another set of equally justifiable decisions might lead to a null result. The replication crisis has shown that it is a mistake to view a single study or set of statistical analyses as a definitive answer to a given theory or claim --- the scientific process should instead be iterative, exploratory, and cumulative [@Tong2019-as].
+
+Open data can address the problem of model misspecification and uncertainty around modelling the data generating process [@Neumayer2017-hc]. Since researchers cannot anticipate changes to methodological best practices, computational reproducibility materials allow scholars to make adjustments if best practices change.^[For instance, Lenz and Sahn [-@Lenz2021-kk] find that over 30% of observational studies published in the \emph{American Journal of Political Science} rely on suppression effects to achieve statistical significance. Being able to determine the influence of suppression effects requires access to the original data.] Even if misspecification is not a problem, extending and building off of the original analyses -- to run more theoretically motivated models, sensitivity analyses, or assess treatment heterogeneity -- are net positives for science [@Janz2016-bt].
+
+### Exposing data falsification
+
+In the most egregious cases, open data allows researchers to investigate and expose data falsification. High-profile exposures of data falsification include the LaCour and Green [-@LaCour2014-ul] case in political science, and the Shu et al. [-@Shu2012-nr] case in psychology [see @Kristal2020-rh; @Leif2021-fo]. Both rested on investigator access to the original data. While presumably data falsification is exceedingly rare, there is no way to know its extent given the general absence of computational reproducibility materials in the first place.
+
+## The need for preregistration
+
+<!-- Simmons, Nelson, and Simonsohn -- motivated reasoning   
+
+Nosek - hindsight bias
+
+Lakens -- prereg as severity testing
+
+Scheel et al -- discussion of how registered reports have fewer positive results than non-published results
+-->
+
+### Distinguishing confirmatory from exploratory analysis
+
+Preregistration means that researchers specify their hypotheses, measurements, and analytic plans prior to running an experiment. This commits researchers to making theoretical predictions before they can view the data and be influenced by observing the outcomes [@Simmons2011-tp; @Simmons2021-qm]. By temporally separating predictions from the data that tests their accuracy, there is much less flexibility for both post hoc theorising and alterations of statistical tests to fit the prediction.
+
+Post hoc theorising, also known as hypothesising after the results are known (HARKing), is an example of circular logic --- the researcher conducts many tests when exploring a dataset, the data reveals a relationship that can be made into a hypothesis, and that hypothesis is 'tested' on the data that generated it [@Nosek2018-an]. But the diagnosticity of a p-value is in part predicated on knowing how many tests were performed: when an exploratory finding is reported as a prediction, the normal methods employed to evaluate the validity of a hypothesis --- such as whether the p-value is less than 0.05 (i.e. null hypothesis significance testing) --- no longer hold. P-values in that case have unknown diagnositicity [@Nosek2018-an]. Thus, post hoc theorising and selective reporting greatly contribute to false positives. 
+
+### Reducing the selective reporting of results
+
+The selective reporting of statistical tests and results can occur for a variety of reasons. There are numerous legitimate ways of analyzing data, and this makes selective reporting seem justifiable. Danger arises when researchers convince themselves that the measures and tests lending evidence to their claims are the 'right' ones, while unjustifiably failing to report measures and tests that did not support the favored hypothesis.
+
+Selectively reported experimental studies often result in overconfident theoretical claims and inflated effect sizes when compared to replications. The Open Science Collaboration [-@Open_Science_Collaboration2015-gk] and Many Labs studies [-@Klein2014-sm; -@Klein2018-gr] have shown that the effect sizes in highly powered replications are much smaller than those in the original studies. When reforms are implemented mandating preregistration, by research bodies or formats like registered reports, the number of null results reported rise [@Kaplan2015-fj; @Scheel2021-wa].
+
+The primary purpose of preregistration is to provide journal reviewers and readers the ability to transparently evaluate predictions and the degree of flexibility researchers had to arrive at their conclusions [@Lakens2019-lt; @Claesen2019-th; @Franco2014-nw]. It is up to the reader to determine whether preregistered studies followed their preregistration plan and adequately justified deviations -- insufficiently detailed preregistration reports are an ongoing problem [@Ofosu_2020-xo].
+
+The replication crisis has altered best practices and changed the habits of many researchers in the behavioural sciences. As we show below, preregistration is not yet the norm in political science and international relations. The conclusions from many studies relying on statistical inference, even some that that have been preregistered on a registry, remain exposed to the statistical pitfalls described above. 
+
+# Methods
+
+Our study design called for a comprehensive analysis of population-level data, yet our populations --- (1) papers using data and statistics, and (2) original experiments --- were embedded in a larger population of *all* political science and international relations publications in target journals. We downloaded all of the journals' papers from 2010 to 2021. Once we had these papers locally, we identified the data, statistical, and experimental papers through dictionary-based feature engineering and machine learning. We then used public APIs, web scraping, and text analysis to identify which of the studies had computational reproducibility materials. We outline this process below.
+
+## Phase one: gathering and classifying the papers
+
+We used Clarivate's 2021 Journal Citation Report to identify target journals. We filtered for the top 100 journals in both political science and international relations, and combined the two lists for a total of `r comma(n_total_combined_journals_clarivate)` journals.^[As some journals publish both political science and international relations articles, the top 100 journals in each category overlapped.] 
+
+With this list, we used the Crossref API to download all publication metadata. We were able to obtain records for `r comma(n_total_journals)` journals. This resulted in over 445,000 papers, which we then filtered on Crossref's `published.print` field for 2010 and onwards, resulting in `r comma(n_total_papers)` papers. We used the `published.print` field as it was the only reliable indicator of actual publication date, and the most complete.^[A more complete discussion of the choice of this field is found in the `./rr_code/rr_crossref_date_field_choice_analysis.R` file, which also shows the unintentional omission of seven journals.] As of mid-2023 we were able to obtain `r comma(n_total_txt)` of these articles in PDF and HTML formats, and we use this as the denominator in the study. We converted the PDFs to plaintext using the open source command line utility `pdftotext`, and we converted the HTML files to text using the `html2text` utility.
+
+Identifying the papers that relied on data, statistical analysis, and experiments was an iterative process. In each case we read target papers and devised a dictionary of terms meant to uniquely identify others like them. We extensively revised these dictionaries to arrive at terms that seemed to maximally discriminate for target reports. The dictionaries eventually comprised `r comma(n_data_dict)`, `r comma(n_stat_dict)`, and `r comma(n_exp_dict)` strings, symbols, or regular expressions for the three categories respectively. 
+
+The dictionaries were then used with custom functions to create document feature matrices (DFM), where each paper is an observation, each column a dictionary term, and each cell a count of that term.^[A custom function was preferable to existing text analysis libraries like `quanteda` because of our need to capture regular expressions and asterisks.] The DFM format made the papers amenable to large-scale analysis. In machine learning parlance, this process is known as feature engineering.
+
+For the first research question -- examining the presence of code and data in papers involving statistical inference -- we hand-coded a total of `r comma(n_handcoded_dasi)` papers with boolean categories and identified `r comma(n_handcoded_stat)` that relied on statistical inference. We defined statistical inference papers as any that involved mathematical modeling of data. This definition is meant to capture a simple idea: mathematical modeling requires computer instructions that perform functions on numbers. In the absence of computational reproducibility materials, these transformations cannot be exactly reproduced by readers. We also developed a dictionary of `r comma(n_game_dict)` terms for formal theory papers, because we wished to exclude papers that did not apply a model to real-world data.
+
+For the second question --- examining what proportion of experiments were preregistered --- we hand-coded `r comma(n_handcoded_exp)` papers with a single boolean category: whether the paper reported one or more original experiments. We defined this as any article containing an experiment where the researchers had control over treatment.
+
+We then trained two machine learning models --- the Support Vector Machine (SVM) and Naive Bayes (NB) binary classifiers --- to arrive at estimates for the total number of statistical inference and experimental papers.^[As an additional robustness check to predict open data and statistical inference papers, we estimated a series of bivariate logistic regressions using the same DFMs. The predicted probability plots can be found in the appendix. These plots give a lower estimate than the machine learning models, though they are in the same broad range. We also attempted to use the Claude 3 Haiku model by Anthropic, but discontinued this experiment due to time and resource constraints, as detailed in the letter to reviewers in the replication materials.] SVMs are a pattern recognition algorithms that give binary classifications to variables in high-dimensional feature space by finding the optimal separating boundary between labeled training data [@James2021-mw 337-372; @Cristianini2000-bu]. The NB family of algorithms calculate the posterior probability of a given classified input based on the independent probability of all the values of its features; it then applies this trained algorithm to classify new inputs [@Rhys2020-uc 135-167].
+
+We report the SVM model results both for their greater accuracy and due to our theoretical prior that the model would be more suitable for a high-dimensional classification problem. For the first research question, our SVM model achieved `r svm_stat_test_res`% accuracy for statistical papers. For the classifying experiments, the accuracy was `r svm_exp_test_res`%. In Appendix 1 we report the confusion matrices, hyperparemeter tuning data, and NB models.
+
+The application of the SVM model to the full dataset of `r comma(n_total_txt)` publications leads to an estimate of `r comma(n_total_stat)` using statistical inference. 
+
+The identification of experimental papers proceeded slightly differently. Rather than beginning with the full corpus, we first filtered for only the papers that included the word "experiment" over five times (`r comma(n_potential_exp)`). We then ran the SVM classifier on this subset. The resulting estimate was `r comma(n_total_exp)` papers reporting experiments.
+
+## Phase two: Identifying open data and preregistrations
+
+We attempted to identify open data resources in seven ways. 
+
+1. Using the Harvard Dataverse API, we downloaded all datasets held by all journals in our corpus who maintained their own, named dataverse (n=20);
+2. We queried the Dataverse for the titles of each of the `r comma(n_total_papers)` papers in our corpus and linked them to their most likely match with the aid of a custom fuzzy string matching algorithm. We validated these matches and manually established a string-similarity cut-off, setting aside the remainder;
+3. We extracted from the full text of each paper in our corpus the link to its dataset on the Dataverse (`r comma(n_extracted_dv_links_from_full_text_papers)`; note this had significant overlap with the results of the first and second queries);
+4. We downloaded the metadata listing the contents of these datasets, to confirm firstly that they had data in them, and secondly that it did not consist of only pdf or doc files. In cases where a list of metadata was not available via the Dataverse API, we scraped the html of the dataset entry and searched for text confirming the presence of data files;
+5. We used regular expressions to extract from the full text papers references to "replication data," "replication materials," "supplementary files" and similar terms, then searched in the surrounding text for any corresponding URLs or mentions of author personal websites or other repositories^[Terms like "replication data" are used in political science to refer to computational reproducibility materials such as open data and code.]. We validated these results by exporting various combination of string matches with the above terms to Excel files, where we examined them in tabular format and validated their relevance. Given that replication and supplementary material stored on personal websites is not of the same order as material on the Dataverse and similar repositories, these results are recorded in our results under the rubric of 'precarious data';
+6. We searched all of the full text papers for references to other repositories, including Figshare, Dryad, and Code Ocean, using regular expressions, where the surrounding text contained a URL fragment;^[Because we identified only five articles that referred to such repositories where the article was not already coded as having open data, we did not include them in the results.]
+7. As additional validation for DA-RT signatory journals specifically, we downloaded the html file corresponding to each article and/or the html file hosting supplemental material (n=2,284), then extracted all code and data-related file extensions to establish their open data status.
+
+\noindent We attempted to identify preregistration of experiments in the following ways:
+
+1. We used regular expressions to extract from all of the experimental papers sentences that referred to "prereg" or "pre-reg", "preanalysis" or "pre-analysis", as well as any references to commonly used preregistration servers (OSF, EGAP, and AsPredicted), and then searched for the availability of the corresponding link to validate that the preregistration had taken place. Parts of this process --- for instance, searching author names in the Experiments in Governance and Politics (EGAP) registry to look for the corresponding paper --- involved time-consuming detective work;
+2. We downloaded all EGAP preregistration metadata in JSON format from the Open Science Foundation Registry (https://osf.io/registries/discover), extracted from this file all osf.io links and unique EGAP registry IDs, and used command line utilities to search for them through the corpus of all the papers.
+
+\noindent We did not examine whether the published report conformed to the preregistration plan.
+
+# Results
+
+<!-- Graphs with bars over time for total stat papers in dataset
+
+Figure 1 illustrates the annual trend in the percentage of political science and international relations papers with some form of open data (left hand y axis), as well as display the total number of statistical inference papers detected in every year (right hand y axis). 
+-->
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/od_time.png}
+  \caption{Open data in statistical inference papers by year}
+\end{figure}
+
+Statistical inference papers are infrequently accompanied by the datasets or code that generated their findings. For the 12 year period under observation, we were able to match `r comma(n_percent_stat_match)`% of statistical inference articles to data repositories (overwhelmingly the Harvard Dataverse). Encouragingly, Figure 1 shows that the percentage of open data has increased between 2010 and 2021 -- rising steadily from about 11% to 26% during this period.
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/od_journal.png}
+  \caption{Open data in statistical inference papers by journal (with over 200 papers)}
+\end{figure}
+
+<!-- 
+![Open data in statistical inference papers by journal (with over 200 papers)](./graphs/od_journal.png){width=90%}
+-->
+
+The total number of statistical inference papers have gradually increased during the 12 year period. In 2010, we found `r comma(n_stat_bool_2010)` papers and `r comma(n_stat_bool_2020)` in 2020 -- the last year with complete data. This supports King's [-@King1990-hy] observation that political science and international relations have long been disciplines increasingly concerned with quantitative methods.^[Gary King illustrated that by 1988 almost half of publications in the American Political Science Review were quantitative.] While the percentage of papers with open data have increased, so too have the absolute number of statistical papers without it. There are simply more published papers making inferences based on hidden data.
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/dart_grid.png}
+  \caption{Open data in statistical inference papers by year published in 16 of the 27 journals signatory to the DA-RT statement}
+\end{figure}
+
+<!-- 
+![Open data in statistical inference papers by year published in 16 journals signatory to the DA-RT statement](./graphs/dart_grid.png){width=85%}
+-->
+
+There are significant differences in open data practices between journals. Figure 2 displays the percentage of statistical inference papers with open data in the 41 journals with over 200 such papers.^[The cutoff was established to focus on journals who publish more quantitative papers and for ease of viewing -- the graph with all 158 journals with at least one statistical inference paper is very large and is located in the appendix.] The number above each journal's bin represents the number of statistical inference papers detected by the support vector machine classifier. Of the 41 journals, 11 have over 50% open data, and 16 have over 20%.^[The journals with over 50% open data are the \emph{American Journal of Political Science}, the \emph{American Political Science Review}, the \emph{British Journal of Political Science}, \emph{European Journal of Political Research}, \emph{International Interactions}, \emph{International Studies Quarterly}, \emph{Journal of Conflict Resolution}, \emph{Journal of Peace Research}, \emph{Journal of Politics}, \emph{Political Analysis}, and \emph{Political Science Research and Methods}. Those with over 20% open data include the aforementioned journals as well as \emph{Comparative Political Studies}, \emph{Conflict Management and Peace Science}, \emph{International Organisation}, \emph{Legislative Studies Quarterly}, and \emph{Political Behaviour}.] 
+
+The effectiveness of the DA-RT statement on journal open data practices is illustrated in Figure 3, which displays the percentage of statistical inference papers with open data by year in each of the 16 DA-RT signatory journals we consider.^[A total of 27 journals signed the DA-RT statement. The majority of these journals publish quantitative research (as can be seen in Figure 2). Note that there are actually `r comma(n_dart_2016_journals_in_our_data)` DA-RT signatory journals in our dataset, but four of them have an insignificant number of statistical inference publications and so we omit them from the analysis.]
+
+Four journals -- \emph{American Journal of Political Science}, \emph{International Interactions}, \emph{Political Analysis}, and \emph{Political Science Research and Methods} -- already made significant progress prior to the release of the initial DA-RT guidelines in 2014. Many of the remaining journals either made significant progress in 2016 or shortly thereafter. 
+
+One caveat is that is that 2 of the 16 journal signatories have consistently low levels of open data even after DA-RT reforms were agreed to commence on January 15, 2016. The extent of transparent practices in three other journals -- \emph{Journal of European Public Policy}, \emph{European Journal for Political Research}, and \emph{Conflict Management and Peace Science} -- was more difficult to determine, given they did not use the Harvard Dataverse. Our attempt to estimate data and code availability for such journals, noted in point seven of phase two of the methods section, appears to produce unreliable and puzzling results.
+
+<!-- Quarterly Journal of Political Science cannot be accessed through ANU. Is this the case for International Security, Cooperation and Conflict, and Security Studies? -->
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/prereg_time.png}
+  \caption{Preregistration in experiments by year}
+\end{figure}
+
+<!-- 
+![Preregistration in experiments by year](./graphs/prereg_time.png){width=80%}
+-->
+
+The preregistration of experiments is rare in political science and international relations journals. Figure 4 shows that the first preregistered study in the dataset that we could identify was in 2013, and that the rate of preregistration only began climbing in 2016. The proportion of experiments that were preregistered for the entire period is approximately 5%; the annual rate has slowly risen to 16% in 2021. 
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/prereg_journal.png}
+  \caption{Preregistration in experiments by journal (with over 20 papers)}
+\end{figure}
+
+<!-- 
+![Preregistration in experiments by journal (with over 20 papers)](./graphs/prereg_journal.png)
+-->
+
+Figure 5 shows the percentage of experiments that were preregistered in the 29 journals with more than 20 experiments. Only the \emph{American Political Science Review} exceeds 20%. Unlike with open data, when it comes to preregistration the differences between journals are small. Of the experiments published in \emph{Political Psychology} and \emph{Political Behaviour}, the two journals with the most experiments that bridge the gap between political science and psychology, only four and five percent respectively are preregistered. 
+
+Prior to the replication crisis at the beginning of the 2010s, there were no organized attempts at enforcing preregistration or using registered reports as a way of curbing researcher flexibility and its attendant QRPs. As psychology was among the first of the sciences to reckon with its methodological issues, brought to light in part by such articles as Simmons, Nelson, and Simonsohn's [-@Simmons2011-tp], it is logical that it took several years for these new practices to be adopted in contiguous disciplines like political science and international relations. But our data illustrate that significant improvements must be made in order for experiments in these fields to meet current methodological best practices. 
+
+# Discussion
+
+Scientists must carry out their work while simultaneously signalling and vouchsafing for its credibility. For the pioneers of the scientific method in 17th century Europe, this included an ensemble of rhetorical and social practices, including the enlistment of trusted witnesses to testify that experiments had in fact taken place as claimed -- this is what Shapin refers to as the moral economy of science [@Shapin2018-ir, 84, 107-108; @Shapin1995-lj].
+
+In the digital age, we argue that the credibility of social science must largely rest on computational reproducibility. <!-- This sentence needs to be edited:  Given that the burden of enabling reproducibility for any given social scientist is low -- the provision of code and data needed to produce the study in the first place is often enough; few provide instructions for the reproduction of an entire computational environment [@Roukema2021-xq] -- there is a limited number of legitimate reasons for withholding computational reproducibility materials. --> The same goes for preregistration and experiments. Adhering to these practices ensures other social scientists can check and reproduce the findings, that the findings are valid, and also demonstrates a commitment to the norm of science as a shared enterprise.
+
+The chief reason for depositing code and data is not for signalling: Open science practices provide the reader with an opportunity to transparently evaluate the evidence for a set of claims and scrutinise an article for any of the myriad problems that plague the use of data and statistical models. An interested reader could investigate an article's data and code for errors, determine whether results are robust to different model specifications, or, in rare cases,  detect data falsification. <!-- Needs clarification: It is likely that universal open data would significantly deter any potential falsification in the first place. --> For experiments, the published paper can be compared to the preregistration document to determine whether there were any unjustified deviations.
+
+Our findings show that political science and international relations are not currently living up to these best practices. For the approximately 25,000 statistical inference papers in the dataset, we could only identify approximately 21% that had a corresponding data respository. Despite improvement in most years, change has not been uniform across the discipline --- most of the progress has been made by a handful of the highest impact factor journals. In 2020, for example, 16 out of the 52 journals with over 20 statistical inference papers had an open data percentage over 50% (see Figure A6) -- 20 journals had an open data percentage over 20%. We could not locate data or code for two of the 16 DA-RT signatories in our dataset.
+
+Universal open data is a collective action problem, and it is the responsibility of journals to foster and enforce these disciplinary norms. In the absence of that, individual researchers do not always share data, and requesting it can sometimes be mistaken as a gesture of challenge rather than collegiality. As Simonsohn [-@Simonsohn2013-fa] notes, the modal response to his requests for original data was that the data was no longer available. We suspect that variation in open data practices between journals reflects differences in journal editors' views of its importance for research credibility. 
+
+<!-- Edit this in light of JPR and JCR: An outlier in the dataset is the international relations journal \emph{International Interactions} (II), which has an average open data rate of approximately 90%. It is the only journal in the dataset that consistently published the majority of its statistical inference articles with open data in the early 2010s. II's policies are straightforward: submissions dependent on datasets must provide a DOI to the computational reproducibility materials on the Harvard Dataverse, and the submission must be computationally reproducible by II staff [@intinterac2021]. II and the other journals show that this policy can be successfully enforced. Omitting the requirement for computational reprodubility would reduce the burden on journal editors further. --> 
+
+The DA-RT initiative sparked spirited debate in the field about the provision of data and code --- but the same cannot be said for preregistration. Experiments are rarely preregistered. Of the roughly `r comma(n_total_exp)` experiments in our dataset, 5% are preregistered. Given that the use of experiments only began to take off in 2014, as shown in Figure 3, the proportion of preregistered experiments in the literature is understandably low. Fortunately, the trend is positive. Two journals of 26 with more than 5 published experiments had a preregistration percentage of over 30% in 2020 (see Figure A7). 
+
+Identifying whether an experiment had a corresponding preregistration report was at times difficult. Numerous experiments made no mention of their preregistration report in the manuscript despite having one listed in a repository. Locating it was also difficult given changing manuscript titles and authors. Their omission in the manuscript is likely due to the fact that many journal editors do not determine whether an experiment has a preregistration or pre-analysis plan or request their disclosure.^[Journals like the \emph{Journal of Politics} require authors to disclose a preregistration report or justify why they did not preregister their experiment.]
+
+The difficulty of matching an experiment with its preregistration report is far smaller than matching a manuscript to a concealed preregistration report. A unique and unanticipated problem we found were authors publishing a study where they omitted any reference to a preregistered experiment -- ostensibly due to null findings. @byun2021geopolitical use their survey data to make descriptive claims while failing to discuss the design or results of their experimental manipulation [@Kim2021-prereg]. It is not clear whether their results failed to further their own argument or were possibly disconfirmatory. In either situation, readers are not permitted to transparently evaluate the strength of their claims. 
+
+Peer reviewers and readers of published works routinely examine whether a theory or explanation has appropriate evidence; whether the measurements are valid and reliable; whether the model has been appropriately specified. Here, we prompt referees and readers to also begin asking: (1) Are the computational reproducibility materials on the Harvard Dataverse or some other reliable repository? (2) Is the paper computationally reproducible based on those materials? (3) If an experiment, was it preregistered? (4) Does the analysis in the experimental paper follow the preregistration plan and are deviations from that plan justified?^[For experiments, we acknowledge that these are by no means definitive criteria on which to judge the trustworthiness of a paper or finding. These practices should accompany efforts to build confidence in a finding through direct and conceptual replications.] We hope that evaluating scientific research in this manner will help move readers away from trusting research in the absence of open science practices to a more informed trust in their presence. 
+
+\newpage
+
+# Acknowledgements
+Both authors acknowledge support from the Australian Government Research Training Program Scholarship, the ANU Library, Taylor & Francis, TeamViewer AG, and the Google Cloud Research Credits program (award GCP19980904).
+
+\newpage
+
+# References
+\singlespacing
+<div id="refs"></div>
+
+<!-- \newpage -->
+<!-- \singlespacing -->
+<!-- ```{r child = 'Appendix.Rmd'} -->
+<!-- ``` -->

@@ -1,0 +1,6 @@
+0
+c(440, 2, 52, 3)
+c(Accuracy = 0.891348088531187, Kappa = 0.083088486504953, AccuracyLower = 0.860617800592494, AccuracyUpper = 0.917316938006113, AccuracyNull = 0.88933601609658, AccuracyPValue = 0.478886060744744, McnemarPValue = 2.59214924072055e-11)
+c(Sensitivity = 0.995475113122172, Specificity = 0.0545454545454545, `Pos Pred Value` = 0.894308943089431, `Neg Pred Value` = 0.600000000000001, Precision = 0.894308943089431, Recall = 0.995475113122172, F1 = 0.942184154175589, Prevalence = 0.88933601609658, `Detection Rate` = 0.885311871227364, `Detection Prevalence` = 0.989939637826962, `Balanced Accuracy` = 0.525010283833813)
+sens_spec
+list()

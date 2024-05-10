@@ -1,0 +1,133 @@
+average marginal component effect
+average treatment effect
+carr.{20}exper
+\bcausal\b
+causal inference
+choice experi
+coefficient
+condition
+conduct.{1,70}exper
+confidence interval
+joint analysis
+joint experiment
+control
+control condition
+control group
+design
+difference-in-differences
+\beffect\b
+estimator
+experi.{1,120}conduct
+experi.{20}carri
+experi.{1,40}we
+experi.{1,30}design
+experiment.{1,10}design
+experiment.{1,10}group
+experiment.{1,10}manipul
+experiment.{1,10}research
+field experiment
+group.{1,10}treat
+instrumental variable
+interaction
+internet experiment
+intervention
+i{1,20}ran 
+i{1,20}random
+lab experiment
+laboratory experiment
+likelihood estimator
+list experim
+list survey
+manipulat
+marginal means
+maximum likelihood estimator
+measure
+mechanical turk
+mturk
+multilevel experiment
+natural experiment
+null result
+\bOLS\b
+original.{1,10}experim
+\bour\b
+our.{1,10}game
+our.{1,20}experi
+our.{1,30}find
+p <
+p =
+p >
+p<
+p=
+p>
+participa
+participants.{1,30}assign
+plot
+polimetrix
+post-test
+posttest
+pre-experiment
+pre-test
+predict
+predicted probab
+pretest
+qualtrics
+quasi-experi
+random utility model
+random.{1,30}assign
+randomi[sz]ed control trial
+RCT
+RDD
+recruit
+recruit.{1,20}participa
+recruit.{1,20}respond
+recruit.{1,20}subject
+regression
+respon
+respond.{1,10}were
+review
+sample size
+simulat
+statistical significance
+statistically significant
+study.{1,20}experi
+subject
+subject.{1,20}recruit
+survey experi
+systematic review
+the experi
+this experi
+treatment effect
+treatment group
+thought experi
+group experi
+use.{1,30}experi
+using.{1,10}experiment
+utili[sz].{1,70}exper
+validity
+vignette
+vignette experiment
+\bwe\b
+we.{1,150}experiment
+we.{1,20}carr
+we.{1,20}conduct
+we.{1,20}design
+we.{1,20}field
+we.{1,20}find
+we.{1,20}ran
+we.{1,20}randomi
+we.{1,20}recrui
+we.{1,20}test
+we.{1,40}design
+yougov
+µ
+β
+computation
+regression discontinuity
+discrete choice
+cluster
+choice experi
+monte carlo
+player
+experi.{1,10}condition
+experi.{1,10}session
+counterfact

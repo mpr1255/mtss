@@ -1,0 +1,27 @@
+---
+title: "Cover Letter for Royal Society Open Science"
+format: pdf
+fontsize: 
+  12pt
+geometry:
+  margin = 1.25in
+bibliography: "rsos.bib"
+---
+
+Dear Editor(s),
+
+The paper I am submitting, on methods to estimate discipline-wide data transparency and preregistration practices, follows other Royal Society Open Science publications examining the efficacy and rate at which different academic fields have implemented open science reforms [@rowhani2020did; @hardwicke2021analytic; @schneider2024sorry].
+
+My co-author and I illustrate how large-scale computational practices such as text analysis and machine learning classifiers, using a corpus of >100,000 published academic articles from the top 160 political science and international relations journals, can be used to identify papers relying on statistical inference in order to estimate journal-level open data rates. We similarly find papers using experimental data in order to identify the proportion which can be matched to a preregistration or pre-analysis document. To our knowledge, no other published paper has illustrated a big data approach to measuring a discipline's research transparency -- most rely on coding random samples of papers that do not permit detailed time-series analysis of individual journals' open data rates. We hope that by illustrating these methods with political science and international relations journals, we can provide a framework for other quantitative disciplines, such as psychology and economics, to examine changes in their research transparency over time. 
+
+Our work has been pre-printed twice: It was recognised by the interdisciplinary Institute for Replication (I4R), which released an updated version of our original pre-print as a discussion paper in early 2023 [see @scoggins2022trust; @scoggins2023measuring]. 
+
+We very much appreciate your consideration of our paper.
+
+Kind regards,
+
+Bermond Scoggins. 
+
+\newpage
+
+# References 

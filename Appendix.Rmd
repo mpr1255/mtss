@@ -1,0 +1,90 @@
+---
+title: ""
+output: pdf_document
+fontsize: 
+  12pt
+geometry:
+  margin = 1in
+header-includes:
+    - \usepackage{setspace}\doublespacing
+    - \usepackage{float}
+    - \usepackage{setspace}
+    - \usepackage{todonotes}
+    - \usepackage{adjustbox}
+    - \usepackage{xcolor}
+    - \doublespacing
+    - \setlength{\parindent}{0.8cm}
+    - \setlength {\marginparwidth }{2cm}
+    - \DeclareUnicodeCharacter{0301}{\'{e}}
+---
+
+# Appendix
+\singlespacing
+
+```{r, echo=FALSE, fig.cap="", message=FALSE, warning=FALSE, fig.align = 'center'}
+library(kableExtra)
+library(tidyverse)
+options(knitr.kable.NA = '')
+
+jcr_ps <- read.csv("output/JCR_Political_Science.csv") %>%
+  head(100) %>%
+  mutate(Category = "PS")
+
+jcr_ir <- read.csv("output/JCR_International_Relations.csv") %>%
+  head(100) %>%
+  mutate(Category = "IR") %>%
+  select(-c(X))
+
+combined_jcr <- merge(jcr_ps, jcr_ir, all = TRUE) %>%
+  select(-c(JIF.Quartile)) %>% # Prevents pivot of Cambridge Review of International Affairs
+  group_by(Journal.name) %>%
+  mutate(row_id = row_number(),
+         X2020.JIF = as.numeric(X2020.JIF),
+         X2020.JIF = round(X2020.JIF, digits = 1),
+         X2020.JCI = as.numeric(X2020.JCI),
+         X2020.JCI = round(X2020.JCI, digits = 1)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = row_id, values_from = Category, names_prefix = "Category_") %>%
+  select(c(Journal.name, Category_1, Category_2, X2020.JIF)) %>%
+  arrange(desc(X2020.JIF))
+
+kableExtra::kable(combined_jcr, caption = "Journals analysed as ranked by Journal Citation Report 2020.",
+      format="latex", booktabs=TRUE, longtable = TRUE) %>%
+  kable_styling(latex_options = c("scale_down", "striped"), position = "center", font_size = 10) %>%
+  column_spec(1, width = "6cm") %>%
+  column_spec(2, width = "2cm") %>%
+  column_spec(3, width = "2cm") %>%
+  column_spec(4, width = "2cm")
+```
+
+\newpage
+```{=tex}
+\begin{figure}
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/stat_inf_svm_plot.png}
+  \caption{Support vector machine (SVM) confusion matrix.}
+\end{figure}
+```
+
+\newpage
+```{=tex}
+\begin{figure}
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/od_journal_2020.png}
+  \caption{Open data by journal (with over 20 statistical inference papers in 2020)}
+\end{figure}
+```
+
+\newpage
+```{=tex}
+\begin{figure}
+  \centering
+  \includegraphics[width=1\textwidth]{./graphs/prereg_journal_2020.png}
+  \caption{Preregistration by journal (with over 5 experimental papers in 2020)}
+\end{figure}
+```
+\newpage
+
+## Identifying papers relying on data analysis
+\doublespacing
+We defined data analysis papers as those that made any display or presentation of numerical data, most commonly in tables and graphs. Maps that included data-rich overlays and required software to produce were included in this category.

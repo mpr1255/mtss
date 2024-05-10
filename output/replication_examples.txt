@@ -1,0 +1,168 @@
+included in the replication files 
+Data and replication code are available
+A script file containing replication code is available
+Data and replication files for all analyses presented in this paper are available 
+The survey data used in this paper as well as the replication files are available at the journal’s page on Dataverse
+Data and replication code for this paper can be found here at the
+along with replication data for the analyses reported below, are available from the author
+All data and code for replication available at journal’s Dataverse page
+Replication materials can be found on Dataverse at: https://doi.org/10.7910/DVN/VWFKDG.
+Replication materials and Supplementary Appendix are available at 
+Data and supporting materials necessary to reproduce the numerical results in the article are available in the JOP Dataverse (https://dataverse.harvard.edu/dataverse/jop)
+To facilitate replication and extensions the do-files used in this study are available from the first author on request.
+regarding the dataset or to obtain data for replication purposes, please contact the author
+1. Online appendix For replication data, see the authors’ file on the Harvard Dataverse website: https:// dataverse.harvard.edu/dataver
+Full replication code and data files are available from the authors.
+A script file containing replication code is available in the Political Behavior Dataverse
+data, along with replication data for the analyses reported below, are available from the author web page http://fas-polisci.rutg
+Data and replication code are available on the Political Behavior dataverse.
+Data and replication code are available at https://dataverse.harvard.edu/dataset.xhtml?persistentId= doi:10.7910/DVN/SUS2
+data used in this paper as well as the replication files are available at the journal’s page on Dataverse: (https://dataverse. harvard.edu/dataverse/po
+Data and replication files for all analyses presented in this paper are available at the Political Behavior Dataverse
+Data and replication code for this paper can be found here at the Journal’s Dataverse site at https://doi. org/10.7910/DV
+A replication dataset and code file are available on Political Behavior’s Dataverse site
+Complete replication information is available at
+The data and replication code are available on the Political Behavior Dataverse
+replication materials
+Information on data access for replication purposes is found in the online appendix.
+ormation on how to proceed to access the data for replication purposes
+https://doi.org/10.1007/s11558-018-9319-2) contains an appendix and replication material, which is available to authorized users
+A replication dataset is available at https://u.osu.edu/kogan.18/research/.
+Upon publication, data will be available for replication purposes on the authors websites at https://ﬁles.nyu.edu/jat7/public/research.html
+replication data: Use ﬁles hosted at: https://doi.org/10.7910/DVN/FYH5WG
+Our replication dataset also includes 
+codes required for the replication of our results are available upon request
+For replication data, see the authors’ file on the Harvard Dataverse website: https://dataverse.harvard.edu/datavers
+Appendix. For replication data, see the author’s ﬁle on the Harvard Dataverse website: https://dataverse.harvard.edu/dataverse
+analyses are found in our replication code
+For replication data, see the author’s ﬁle on the Harvard dataverse website: http://dataverse.harvard.edu/dataverse/
+Our replication materials are as described in
+See ... for replication materials
+The replication materials for this article are available
+All simulation code and replication materials are available at the Political Analysis Dataverse 
+The replication code can be found in 
+Data for replication of all analyses described and summarized in this article are available through the Harvard Dataverse
+All data used in this article is available on Dataverse along with replication code (doi:10.7910/DVN/KBRXOR)
+A replication file for this paper is available at https://doi.org/10.7910/DVN/PCYBPY
+The replication data (Butler and Homola 2016) is available on the PA Dataverse at: https://dataverse.harvard.edu/dat
+For replication code of Figure 1, see this paper’s repository at Harvard Dataverse (Steinert-Threlkeld 2016)
+Complete replication materials are available on the Political Analysis Dataverse
+The replication materials for all analyses reported here are available at
+The replication materials for analyses reported here are available at
+available at the Harvard Dataverse for the purpose of replication
+The replication materials for this paper can be found at 
+results and replication data and Stata code are available at 
+the replication folder includes a brief guide on how to use the provided functions
+The replication materials for this paper can be found at
+Full regression results and replication data and Stata code are available at
+supporting documentation will be placed on the authors’ website to permit replication analyses
+The replication code and data are available online as a dataverse repository
+The replication materials for this article can be found at https://doi.org/10.7910/DVN/XIEJCR
+Full replication code along with additional discussion of the model is provided in the Online Appendix
+Data for replication are available at http://kups.ku.edu/people/Faculty/Yap_Fiona.shtml
+supplementary tables and replication data are available at http://personal.lse.ac.uk/RICKARD/research.html
+Data replication materials are available at http://www.princeton.edu/,dbcarter and http://www.princeton.edu/,daksoy. 
+Data replication sets are available at
+The data replication sets and online appendices are available at
+The dataset and replication scripts for all analyses presented in this article are available for download from www.frankhaege.eu
+Data replication sets are available in Harvard Dataverse at
+This information will be posted on the journal’s replication website at the time of publication
+See the replication files 
+See replication data 
+An online appendix and the dataset for replication of all results is available
+Data, replication files, and other supplementary material can be found at http://thedata.harvard.edu/dvn/dv/jmryan
+Supplemental and replication materials for this section can be found in the Supplemental Materials section of the Annual Reviews 
+More information on the codebook and replication data is available at https://trip.wm.edu/home/ index.php/data/replication-data
+Data and replication files will be made available on the authors’ websites upon publication
+All data and documentation for the replication of this work can be found at http:\\perg.tamu.edu
+Please direct all questions regarding replication to the author
+Data and replication files available upon publication at http://dvn.iq.harvard.edu/ dvn/dv/internationalinteractions. 
+Data and replication files are available at the International Interactions Dataverse page, http://dvn.iq.harvard.edu/dvn/
+A replication dataset is available at 10.5683/SP2/9JHYPJ
+An Online Appendix containing supplemental information and materials for replication are located at http://people.bu.edu/areeves. 
+Data and replication code for this article are available on the ISQ Dataverse
+All data and replication material can be found at: https://github.com/FGCH/FRTIndex
+Data and replication code are available at http://www.public.asu.edu/&mdramir/research.html
+See replication materials for more details. 
+For replication data and code, see Esterling, Neblo, and Lazer (2011)
+Our replication results for 2009 are shown in columns 3 and 4.
+information necessary to replicate our work are available in a Dataverse replication ﬁle at King and Roberts (2014)
+complete replication materials are available at the Political Analysis Dataverse 
+A replication file is available at the Harvard Dataverse
+The replication file and data for the analyses described in this article have been archived at Braumoeller (2015). T
+For replication materials, please see Muchlinski (2015
+All replication code and data can be found on the Political Analysis dataverse
+A replication data set is available from the author on request.
+The author will share all data for replication purposes
+Data and replication files for this study will be available at Dataverse 
+All data and replication files can be found at http://dvn.iq.harvard.edu/dvn/faces/study/StudyPage.xhtml? globalId=hdl:1902.1
+Our compilation of those data and replication files for this article can be found on the AJPS DataVerse archive
+Data and replication files for this study are available at AJPS Data Archive
+All replication materials are stored at the AJPS Data Archive
+The complete data set and replication code for the empirical analysis can be accessed at: https://doi.org/10.15129/ 74af0e08-ea84-467c-89c
+For more details, see the replication files, available at [AUTHOR’S Web site]
+A replication data set and our on-line appendix can be found at http://spot.colorado.edu/~dabe1889/data.html.
+The data used in this project are available on ISQ’s data replication site
+all replication data are available on my Dataverse
+For replication data, see the authors’ ﬁle on the Harvard Dataverse website: https://dataverse.harvard.edu/dataverse
+can be accessed as a Stata file at https://netfiles.uiuc.edu/bjgaines/replication%20data/.
+The replication code and data archive for this article are available at http://hdl.handle.net/1902.1/16378. We thank
+Supplementary information and replication data for this article are available at http://anadelao.commons.yale.edu
+Supplementary material including web appendices and replication codes can be found at the author’s website (http://home.uchicago.edu/∼jhp/research)
+All data and replication materials have been posted on the AJPS Data Archive on Dataverse
+the full replication code and data are available at http://people.umass.edu/bruced/ 
+in the replication archive at http://people.umass.edu/bruced/
+Supplementary and replication materials can be found at www.narapavao.com/publications-and-working-papers.html
+The online appendix, as well as all the data files and replication code, are available on my website, http://sites.dartmouth.edu/jcarey/research
+All replication materials are in the Supporting Information online
+For replication, please contact the authors to obtain our data set
+The replication data, plus myriad reanalyses, are available at http://www.stanford.edu/~jfearon/.
+Data available for replication upon request
+To facilitate replication the Stata do-files are available from the second author on request
+Data and replication files are available from the author
+replication materials can be found on Dataverse at https://doi.org/10.7910/DVN/ X2VJJX
+The original data and the Stata replication files are available at https://sites.google.com/a/nyu.edu/adam-przeworski/
+The replication material for the empirical analysis in this article and the codebook for the employed data can be fo
+All materials for replication are available at http://jcr.sagepub.com/.
+The full data set, with links to the text of each agreement and replication materials, are available upon publication at the lead author’s personal website [URL to be added]
+The replication data can be found at http://dx.doi.org/10.7910/DVN/28603
+All data and replication files are available at http://www.rorytruex.com/publications.
+online appendix and replication data for this article are available on the journal website
+The Online Appendix and replication material, including the data sets and codebook, are available at the JCR replication website at 
+The replication data, R code, and online appendix are available at www.prio.no/jpr/datasets
+Data and replication materials are available from the author
+All replication materials including datasets, code, and codebook, along with the Online appendix, are available at h
+full replication data and code for all analyses shown can be found at http://christophergandrud.github.com/di-governa
+We will thus provide replication files subsequently
+The replication archive for this article is available as Imai et al. (2011)
+This and other coding details are available in a replication file
+Data and code for these tests are available in the replication files
+Those robustness checks are included in the replication file provided at the author’s website (http://www2.kobe-u.ac.jp/~tago/
+A supplementary Online Appendix, the replication dataset, and corresponding do-files are available at phultquist.wordpress.com/research/. 
+All data, replication materials, and instructions regarding analytical materials upon which published claims rely are avai
+All supplementary materials including replication data, do-files as well as Online Appendices are avail- able at http://journals.sagepub.com/home/cmp
+Replication files Data replication files can be found at the author’s personal website: https://emiryazici.weebly.com/research.html 
+The Online Appendix and replication materials can be found at www.sambuddhaghatak.com
+A full-replication data set is available from the authors. 
+Because of the considerable effort entailed, the extracted data, as well as replication materials for the analyses in this paper are available, see Pan and Chen (2018)
+Please contact the lead author for replication data availability
+The authors will make the data used for this article publicly available for replication purposes in the Harvard Dataverse Network upon publication
+Supplemental appendices and replication materials can be found on the author’s website at www.jhkirkla.wordpress.com
+Data replication files for this article are available at https://sites. google.com/site/namkyu77.
+processed data are available with our replication material
+Supplementary material and replication data for this article are available with the manuscript on the Political Research Quarterly’s (PRQ) 
+A Stata replication dataset and do file, along with our three appendices, are available with the manuscript on the Polit
+Supplemental materials and replication materials for this article are available with the manuscript on the Political Research Quarterly (PR
+The full replication code and instructions will also be posted to the CMPS website at www.cmpsurvey. org
+Replication code and data available at: https://www.dropbox. com/s/56a9la9t9fcrnxm/PRQ%20-%20IIT%20sanctions%20 -%20replication.zip?dl=0
+The data and codes for the replication of the main results are available at the author’s personal academic webpage (https:// sites.google.c
+Data and replication materials can be accessed at www.edanabeauvais.com/data
+Questionnaires are available with replication materials at the APSR site and at http://www.thaddunning. com/data/india/replication. 
+We provide full replication data, additional statistical infor- mation, further description of United Russia’s institutional rol
+materials necessary for replication is available on the EUP homepage.
+The appendix and replication materials are available online on the EUP website
+Created in ArcGIS Pro 2.4.0, using data exported from the replication files included in the Online appendix
+The confidentiality of the individual answers was guaranteed, however. Hence, replication material for the figures below is provided, but not the full data set
+Note that the dataset as part of the replication material is only accessible via: https://doi.org/10.11587/SAU5AJ 
+The Appendix contains a detailed description of each variable for replication purposes as well as details on the survey meth- odology, data preparation, and analysis
+The entire dataset used in this study has been deposited in the Dryad Repository

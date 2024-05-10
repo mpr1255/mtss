@@ -1,0 +1,233 @@
+term	type
+%	data
+95 per cent ci	stat
+95 per cent confidence interval	stat
+95 percent confidence interval	stat
+95% ci	stat
+95% confidence interval	stat
+:=	data
+"="	data
+anova	stat
+as-if randomisation	stat
+average causal effect	stat
+average component marginal effect	stat
+average treatment effect	stat
+bayesian	stat
+best model	stat
+binomial	stat
+binomial regression	stat
+bootstrap	stat
+bootstrapped	stat
+bootstrapping	stat
+causal model	stat
+Chi square	stat
+Chi squared	stat
+Chi-square	stat
+Chi-squared	stat
+clustered errors	stat
+clustered standard errors	stat
+coefficient	stat
+coefficients	stat
+cohen's d	stat
+compiled by the author	data
+compiled by the authors	data
+confidence interval	stat
+confidence measure	stat
+confounder	stat
+confounders	stat
+conjoint experiment	stat
+control group	stat
+control unit	stat
+control variable	stat
+control variables	stat
+correlation coefficient	stat
+covariate balance	stat
+covariates	stat
+cumulative mean	data
+cumulative sum	data
+Data and Methodology	data
+data and methods	data
+data collection	data
+data, and methods	data
+dependent variable	stat
+diff-in-diff	stat
+diff-in-diffs	stat
+difference-in-difference	stat
+difference-in-differences	stat
+dv	stat
+Entropy balancing	stat
+estimation strategy	stat
+estimator	stat
+explanatory variable	stat
+factor analysis	stat
+f statistic	stat
+f-statistic	stat
+fixed effects	stat
+frequency	data
+generalised linear model	stat
+generalised linear models	stat
+geocomputation	data
+geocomputational analysis	data
+geospatial	data
+geospatial analysis	data
+glm	stat
+glmm	stat
+glmms	stat
+glms	stat
+h1	stat
+h2	stat
+h3	stat
+h4	stat
+h5	stat
+heteroskedasticity	stat
+hesteroskedastic	stat
+hierarchical model	stat
+histogram	data
+hypothesis test	stat
+identification strategy	stat
+independent variable	stat
+instrumental variable	stat
+intercept	stat
+interest variable	stat
+J-test	stat
+J test	stat
+kurtosis	stat
+linear model	stat
+linear models	stat
+linear regression	stat
+log	data
+logit	stat
+logit estimation	stat
+main variable	stat
+main variables	stat
+manova	stat
+marginal effect	stat
+marginal effects	stat
+maximum likelihood	stat
+mean frequency	data
+mean number	data
+mean score	data
+measurement error	stat
+median	data
+min	data
+missing data	data
+mixed effects	stat
+model fit	stat
+model performance	stat
+model weights	stat
+multi-level model	stat
+multilevel model	stat
+multinomial	stat
+multivariate analyses	stat
+multivariate analysis	stat
+n =	data
+n ¼	data
+n=	data
+natural experiment	stat
+natural log	stat
+negative binomial	stat
+new dataset	data
+non-linear model	stat
+non-parametric regression	stat
+nonlinear model	stat
+nonparametric regression	stat
+novel data	data
+novel data-set	data
+novel dataset	data
+n¼	data
+obs.	data
+ols	stat
+operationalisation	stat
+operationalise	stat
+operationalization	stat
+operationalization strategy	stat
+operationalize	stat
+operationsalisation strategy	stat
+ordinal	stat
+ordinary least squares	stat
+original data	data
+original data set	data
+original data-set	data
+original database	data
+original dataset	data
+outcome variable	stat
+parameter estimate	stat
+parameters	stat
+percentage	data
+point estimate	stat
+poisson	stat
+polity iv	data
+posterior probabilit	stat
+power analysis	stat
+predicted probabilit	stat
+predictor	stat
+preregister	stat
+preregistered	stat
+preregistration	stat
+probit	stat
+probit analysis	stat
+quasi-experimental	stat
+R	stat
+r ¼	stat
+r2	stat
+r=	stat
+random sample	stat
+randomized control trial	stat
+regression	stat
+regression discontinuity	stat
+regression model	stat
+regression models	stat
+representative sample	stat
+residuals	stat
+response variable	stat
+robustness	stat
+robustness check	stat
+r¼	stat
+sample size	stat
+simulation	stat
+skewness	stat
+slopes upward	stat
+spatial analysis	stat
+SSD	stat
+standard clustered errors	stat
+standard deviation	stat
+standard errors	stat
+stata	stat
+statistical power	stat
+statistical significance	stat
+statistically significant	stat
+std. dev.	stat
+Student t test	stat
+Student t tests	stat
+Student t-test	stat
+Student t-tests	stat
+subsamples	stat
+sum curve	stat
+sum plot	stat
+survey experiment	stat
+t model	stat
+t test	stat
+t-test	stat
+time series	data
+time series data	data
+treated unit	stat
+treatment assignment	stat
+treatment effect	stat
+treatment variable	stat
+variable	data
+variables	data
+vignette experiment	stat
+weights	stat
+x-axis	data
+x-y	data
+y-axis	data
+z axis	data
+zero-altered	stat
+zero-truncated	stat
+±	data
+χ2	stat
+≈	data
+≤	data
+≥	data
+quadratic	stat
+polynomial	stat

@@ -1,0 +1,10 @@
+doi,file_location,stat_bool,predicted_label,true_label,correct,corrected_true_label,NOTE
+10.1016_j.ejpoleco.2020.101894,/Volumes/t7/data/mtss/txt/10.1016_j.ejpoleco.2020.101894.txt,1.0,0,1,False,0,ACTUALLY I think the LLM is correct here. This is NOT a quant paper! See On the political economy of minority rights
+10.1086_687928,/Volumes/t7/data/mtss/txt/10.1086_687928.txt,1.0,0,1,False,0, I think the model is actually correct here too. Check https://www.journals.uchicago.edu/doi/full/10.1086/687928. I.e. this is NOT a 'stat bool'
+10.1093_jopart_mut028,/Volumes/t7/data/mtss/txt/10.1093_jopart_mut028.txt,1.0,0,1,False,1, model got this wrong but updated prompt and then it was right.
+10.1177_0002716216662433,/Volumes/t7/data/mtss/txt/10.1177_0002716216662433.txt,1.0,0,1,False,1, model got this wrong but updated prompt and then it was right.
+10.1080_09546553.2013.847827,/Volumes/t7/data/mtss/txt/10.1080_09546553.2013.847827.txt,,1,0,False,1, this was actually a 1.
+10.1177_0022002717721395,/Volumes/t7/data/mtss/txt/10.1177_0022002717721395.txt,,1,0,False,1, this was actually a 1. 
+10.1017_s1049096516000792,/Volumes/t7/data/mtss/txt/10.1017_s1049096516000792.txt,,1,0,False,1, this was actually a 1
+10.1080_09546553.2021.1880231,/Volumes/t7/data/mtss/txt/10.1080_09546553.2021.1880231.txt,,1,0,False,0, This was indeed a zero. Model just could not figure it out. A Public Health Ethics Model of Countering Violent Extremism  https://sci-hub.se/10.1080/09546553.2021.1880231. And here the model is just striaght up WRONG. This is definitely a 0. model keeps saying 1. 
+10.1111_1475-6765.12309,/Volumes/t7/data/mtss/txt/10.1111_1475-6765.12309.txt,,1,0,False,1,This is an actual 1.

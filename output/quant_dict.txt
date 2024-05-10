@@ -1,0 +1,244 @@
+%
+95 per cent ci
+95 per cent confidence interval
+95 percent confidence interval
+95% ci
+95% confidence interval
+:=
+=
+anova
+as-if randomisation
+average causal effect
+average component marginal effect
+average treatment effect
+bayesian
+best model
+binomial
+binomial regression
+bootstrap
+bootstrapped
+bootstrapping
+causal model
+Chi square
+Chi squared
+Chi-square
+Chi-squared
+clustered errors
+clustered standard errors
+coefficient
+coefficients
+cohen's d
+compiled by the author
+compiled by the authors
+confidence interval
+confidence measure
+confounder
+confounders
+conjoint experiment
+control group
+control unit
+control variable
+control variables
+correlation coefficient
+covariate balance
+covariates
+cumulative mean
+cumulative sum 
+Data and Methodology
+data and methods
+data collection
+data, and methods
+database
+dependent variable
+diff-in-diff
+diff-in-diffs
+difference-in-difference
+difference-in-differences
+dv
+Entropy balancing
+estimation strategy
+estimator
+explanatory variable
+f statistic
+f-statistic
+fixed effects
+frequency
+function
+generalised linear model
+generalised linear models
+geocomputation
+geocomputational analysis
+geospatial
+geospatial analysis
+glm
+glmm
+glmms
+glms
+h1
+h2
+h3
+h4
+h5
+heteroskedasticity
+hierarchical model
+histogram
+hypothesis test
+identification strategy
+independent variable
+instrumental variable
+intercept
+interest variable
+iv
+kurtosis
+lemma
+linear model
+linear models
+linear regression
+log
+logit
+logit estimation
+main variable
+main variables
+manova
+marginal effect
+marginal effects
+max
+maximum likelihood
+mean frequency
+mean number
+mean score
+measurement error
+median
+min
+missing data
+mixed effects
+model fit
+model performance
+model weights
+multi-level model
+multilevel model
+multinomial
+multivariate analyses
+multivariate analysis
+n =
+n ¼
+n=
+natural experiment
+natural log
+negative binomial
+new dataset
+non-linear model
+non-parametric regression
+nonlinear model
+nonparametric regression
+novel data
+novel data-set
+novel dataset
+n¼
+obs.
+ols
+operationalisation
+operationalise
+operationalization
+operationalization strategy
+operationalize
+operationsalisation strategy
+ordinal
+ordinary least squares
+original data
+original data set
+original data-set
+original database
+original dataset
+outcome variable
+parameter estimate
+parameters
+percentage
+point estimate
+poisson
+polity iv
+posterior probability
+power analysis
+predicted probability
+predictor
+preregister
+preregistered
+preregistration
+probability
+probit
+probit analysis
+quasi-experimental
+R
+r =
+r ¼
+r2
+r=
+random sample
+randomized control trial
+regression
+regression discontinuity
+regression model
+regression models
+representative sample
+residual
+residuals
+response variable
+robustness
+robustness check
+r¼
+sample size
+simulation
+skewness
+slopes upward
+spatial analysis
+SSD
+standard clustered errors
+standard deviation
+standard errors
+stata
+statistical power
+statistical significance
+statistically significant
+std. dev.
+Student t test
+Student t tests
+Student t-test
+Student t-tests
+subsamples
+sum curve
+sum plot
+survey experiment
+t model
+t test
+t-test
+time series
+time series data
+treated unit
+treatment assignment
+treatment effect
+treatment variable
+variables
+vignette experiment
+weights
+x-axis
+x-y
+y-axis
+z axis
+zero-altered
+zero-truncated
+±
+̸≈
+β 
+δ 
+σ
+χ2
+ℓ
+∀
+∅
+∈
+∑
+∩
+≈
+≤
+≥
+�

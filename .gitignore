@@ -211,5 +211,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
-Icon
+Icon*
+*conflict_on*
 rr_code/llm_classifier/code/classify_quant_papers (conflict \#1_on_2024-05-07).py

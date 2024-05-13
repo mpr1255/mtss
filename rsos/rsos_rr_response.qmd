@@ -2,7 +2,7 @@
 title: "Revisions for Measuring Transparency in the Social Sciences: Political Science and International Relations"
 subtitle: "Royal Society Open Science Manuscript ID #RSOS-240313"
 authors: "Bermond Scoggins and Matthew P. Robertson"
-format: pdf
+format: docx
 ---
 
 We greatly appreciate the opportunity to revise the manuscript, and we thank Dr. Hardwicke and the two reviewers for the time they spent with the paper and the very helpful comments and guidance they gave. We think the feedback has significantly improved the work. We also appreciate the time extension for this response.
@@ -17,13 +17,11 @@ Indeed. Our challenge was to balance the sheer complexity and tediousness of the
 
 (@) *At least one reviewer had some trouble identifying and interpreting the validation process/results — please can the authors clarify this.*
 
-<!-- Describe SVM confusion matrix -->
-
-As recommended by reviewer 1, we have added the confusion matrices for statistical inference and experiment paper classification in the appendix -- as well as refer to their accuracy in the paper. 
+As recommended by reviewer 1, we have added the confusion matrices for statistical inference and experiment paper SVM classification in the appendix -- as well as refer to their high accuracy in the paper. We have also included a detailed `README.md` file outlining the process of creating the train-test dataset. 
 
 (@) *One reviewer suggests providing policy prescriptions — it is up to the authors whether they follow this suggestion, but from my perspective I do not think it is necessary in an empirical paper that is not specifically evaluating the policy being advocated for. If the authors do offer policy suggestions, they should make clear whether their suggestions are directly evidence-based or merely speculations inspired by the evidence.*
 
-Given that this is a descriptive paper, we indeed prefer to hold off on policy recommendations for the time being. We identify that the journals whose editors were signatories to the Data Access and Research Transparency (DA-RT) statement have followed through and open data rates have increased to their intended levels. While very important, we cannot speak to how to incentivise non-DA-RT journal editors to adopt the reforms the DA-RT statement advises. We continue to think about the types of policies and practices that would encourage and facilitate transparent research practices, and we have some more work planned in this area.
+Given that this is a descriptive paper, we indeed prefer to hold off on policy recommendations. We identify that the journals whose editors were signatories to the Data Access and Research Transparency (DA-RT) statement have followed through and open data rates have increased to their intended levels. While very important, we cannot speak to how to incentivise non-DA-RT journal editors to adopt the reforms the DA-RT statement advises. We continue to think about the types of policies and practices that would encourage and facilitate transparent research practices, and we have some more work planned in this area.
 
 (@) *Please ensure that empirical claims in the introduction are supported with citations. For example: "Yet current assessments of the field’s progress have been based on relatively small samples".*
 
@@ -51,21 +49,23 @@ This is a great point and we have remedied this by using Zenodo's built-in GitHu
 
 (@) *The open science movement did not begin “in the 2010s”.  See the “Replication, Replication” symposium in 1995 in PS, among others.*
 
-An unfortunate oversight on our part. We have fixed this.
+An unfortunate oversight on our part. We have now fixed this.
 
 (@) *Preregistration is not necessarily better; it depends on the nature of the study.  You preregister if you can’t run new analyses very easily, but should not preregister if the goal is to discover new questions, new research directions, and serendipity.  You need to clarify and classify articles before deciding whether lack of preregistration is good or bad.  You say “As we show below, preregistration is not yet the norm in political science and international relations.“  I would guess that if it had been the (rigidly enforced) norm for the last few decades, most progress in the field would not have been made.*
 
-<!-- BERMOND BRO CMON> Make reference to our discussion of prereg -- it's for the reader. Prereg not incompatible with exploration and ADD to text (cite Lakens). -->
+We thank the reviewer for this perspective and highlight that we take a descriptive view in our analysis of preregistration rates, alongside summarising what has been written in the open science literature about why preregistration is a desirable practice. By taking a descriptive view we focus on identifying experiments and determine whether we can find an accompanying preregistration document. In doing so, we hope to stimulate discussion about what the desired percentage might be. This point has been added to the discussion section. Determining post hoc which experiments should and should not be preregistered, as well as specifying the correct number of experiments that should comprise the preregistration denominator, is a conceptually enormously difficult task and one we believe falls outside our remit. 
 
 (@) *Replicability these days varies by journal more than author.  Can you report journals?  There’s little point in checking individual articles for journals that require as a condition of publication replication data, especially including some that replicate the results before final acceptance.*
 
-<!-- Clarify we do report journals -->
+We report journals and have added more figures illustrating journal open data and preregistration rates in the appendix. 
 
 (@) *Many, and I’d wager most, social science methodologists would recommend that test statistics not be used at all, and in its place point estimates and confidence intervals.  Many of the problems the authors note with their rules would vanish if the authors were focused on the quantity of real interest rather than some arbitrary statistical criterion that does not necessarily translate into substantive problems of interest.*
 
+We were slightly uncertain about the meaning of this comment but we take it as broader commentary about how statistical inference is practiced in the discipline. 
+
 (@) *“Many Labs studies (2014, 2018) have shown that the effect sizes in highly powered replications are much smaller than those in the original studies.”  So who would you trust?   The original authors -- who often spent many years working on their papers -- or the replicators -- who typically spend an hour or two on a replication?   Why is the replicator the judge?  That’s not how science works, nor should it.*
 
-<!-- Explain that we have clarified the definitions of computational reproducibility and replicibility. Many Labs conduct direct replications -- not reproducibility studies as most people do in pol sci. -->
+We have clarified the language in the introduction to distinguish replications (i.e. collecting new data with the same design as the original paper being replicated) from reproductions (i.e. analysing the original paper's data with different measures or statistical models). The Many Labs project conducted direct replications of psychological experiments. 
 
 (@) *The first 11 pages of this manuscript could be reduced. The paper really starts now on p.12.*
 
@@ -73,7 +73,7 @@ We have reduced the length of the manuscript considerably.
 
 (@) *Dictionary based text analysis is 3-4 scholarly generations of text analysis behind the cutting edge.  This should be replaced with modern automated text analysis methods, maybe even LLMs. But whatever you use (perhaps even dictionary based methods), the authors must have some validation that their method does what they claim.*
 
-We spent a great deal of time addressing this piece of feedback, going some way to building out an LLM classification pipeline, but in the end abandoned it due to time and resource constraints. A more detailed account of this follows below. However, in the end it made most sense to stick with the SVM model we already have in the paper. We've now added a confusion matrix and further explanations. We do not think that the age of the technique is the most important factor, but its accuracy and suitability for the task at hand. We have expanded on this in the paper, and we hope the confusion matrix helps.
+We thank the reviewer for this comment and spent a great deal of time addressing this piece of feedback, going some way to building out an LLM classification pipeline, but in the end abandoned it due to time and resource constraints. A more detailed account of this follows below. However, in the end it made most sense to stick with the SVM model we already have in the paper. We've now added a confusion matrix and further explanations. We do not think that the age of the technique is the most important factor, but its accuracy and suitability for the task at hand. We have expanded on this in the paper, and we hope the confusion matrix helps.
 
 ## Our attempts at using an LLM classifier
 
@@ -99,11 +99,9 @@ Our process was as follows:
 
 Generally, we agree that LLMs are going to be the superior method of binary classification and structured data extraction for tasks like this. We look forward to leveraging these methods on this corpus under fewer resource and time constraints in the future. At present, we feel that a classification accuracy of 92.35% is adequate and we hope the reviewers agree.
 
-<!-- BERMOND BRO PLEASE IMPROVE THIS. WE CANNOT SAY WE 'FEEL' IT IS ADEQUATE THAT IS LAME. COME UP WITH SOMETHING PLS. -->
-
 (@) *The ML models are also generations behind current best practice.  Ensembles, random forests, deep learning, and others routinely beat SVM and NB.  Percent accuracy is not relevant, unless they are 100% accurate.  We need evidence on bias and variance.  The authors talk about confusion matrices (which is the right thing), but I don’t see the Appendix 1 they refer to.  And we also need to see what kinds of corrections were made on the basis of these.*
 
-We thank the reviewer for pointing out the omission of confusion matrices in the appendix. We have added the SVM confusion matrix, which is the classifier we used to perform our main analysis. The figure also includes the main statistics during the train-test process. These statistics indicate the model performs very well and particularly in identifying statistical papers with 92.35% accuracy and 94% sensitivity.
+We thank the reviewer for pointing out the omission of confusion matrices in the appendix. We have added the SVM confusion matrices for the statistical inference and experiment papers, which is the classifier we used to perform our main analysis. The figure also includes the main statistics during the train-test process. These statistics indicate the model performs very well and particularly in identifying statistical papers with 92.35% accuracy and 94% sensitivity. Please note that we report the results from the `./output/ml_svm_stat_test.txt` and `./output/ml_svm_exp_test.txt` validation files, which were generated in 2021. These results trivially differ from the confusion matrices reported in the appendix because we reran the models for this revise and resubmit and a different train-test split was used.^[The confusion matrices were generated with the `./code/R_original/test_ML/test_experiments.R` and `./code/R_original/test_ML/test_stat_inf.R` scripts). ]
 
 # Reviewer 2
 
@@ -113,13 +111,11 @@ We thank the reviewer for pointing out the omission of confusion matrices in the
 
 (@) *The authors note that previous efforts to assess the availability of open data have been based on “small samples.” But even more importantly, these small samples have been unrepresentative, mostly focusing on the “top” or “most visible” journals. The authors offer a careful discussion of the literature on reproducibility and replication. This review is thorough, perhaps unnecessarily so. If the authors are limited by space, they might consider condensing this material.*
 
-<!-- Describe what will be cut -->
-
 We appreciate this feedback and agree that the first half of the paper can be condensed. We have reduced the length of the open data and preregistration sections. 
 
 (@) *As with very complex computational projects, it is difficult to fully describe the procedures in the text, and not everything can or should be fully described. However, to me, the discussion of the procedures seemed slightly on the sparse side. For example, what do the authors mean by “statistical inference paper”? The definition is a little vague. Examples: What CrossRef metadata do the authors use? How complete and accurate is the published.print variable? How does CrossRef record the published.print variable for online-only journals? When the PDF is converted to plain text, how are URLs preserved? How accurate is the conversion? How many of the PDFs require OCR? Why don't the authors use HTML? What do the authors mean by “UNIX command line utilities” and OCR software? What procedure did the authors follow to revise dictionaries and evaluate discrimination?*
 
-As mentioned above, we have expanded the discussion of the methods in the paper, hopefully addressing these questions and concerns. We hope the extended length will not pose a problem. A clear definition of a "statistical inference paper" has also now been provided. Where we sensed the explanation might become tedious we tried to keep it brief, added a footnote, and pointed interested readers to a code file that demonstrates the idea or discovery.
+As mentioned above, we have expanded the discussion of the methods in the paper, hopefully addressing these questions and concerns. We hope the extended length will not pose a problem. A clearer definition of a "statistical inference paper" has also now been provided and we make explicit that we wish to detect papers using statistical models -- those that include terms like ordinary least squares or ols, regression, and control groups or variables. We also include a reference to the classification script (`./code/R_updated/3.1_classify-fulltext-paper.R)`, which describes the classification process and points to the list of terms used to identify statistical inference papers -- `./output/quant_dict_w_cats.txt`. Where we sensed the explanation might become tedious we tried to keep it brief, added a footnote, and pointed interested readers to a code file that demonstrates the idea or discovery.
 
 Some issues we did not address in the paper, for reasons of space and focus: 
 
@@ -171,6 +167,10 @@ By way of background: We initially followed the typology of the Journal Citation
 (@) *Overall, the results section seemed a little sparse. It’s hard for me to make a concrete suggestion here, other than I expected a lot more detail. The authors have collected a rich, comprehensive dataset; it seems at least worth plotting the time series for each journal, perhaps after dividing the 170ish journals into several categories to prevent over-plotting. It also seems worth describing in a lot of detail the status quo—what does the availability rate look like across the 170ish journals for the most recent year in the dataset? How many have no replication data available? How many are above 50%? How many above 90%? These are ideas, but the authors will have much better ideas of what their data can show.*
 
 <!-- We do show journal OD availability over the period in Figure 2 (and 4 for prereg). -->
+
+We appreciate this feedback and we have revised our figures to better illustrate the distribution of data availability by journals both in the manuscript and the appendix. Principally, we visualise the data availability percentage by journal in descending order. The appendix also contains figures with all journals -- not just ones that meet our journal cutoff of containing 200 statistical inference papers and 20 experiments in the manuscript -- with at least 1 statistical inference or experiment paper. These figures are for all years (2010-2021), as well as 2020. The 2020 figures include those with and without the cutoff for statistical inference and experiment papers. References to these 2020 figures have been included in the manuscript. 
+
+In relation to dividing the 170 journals, there is the difficulty of determining which categories would be most informative. We agree with your previous comment that distinguishing political science from international relations journals is unhelpful. LLMs would work as part of a large-scale classification pipeline (e.g. classifying papers as about democratisation research, or political economy, or another subfield), but we feel that would be beyond the scope of the current paper. In exploring this route, we believe that reporting each of the journals open data and preregistration rates is the more transparent route with fewer researcher degrees of freedom.
 
 (@) *Lastly, I think the authors are in a good position to make policy prescriptions. What can political science do to improve? What should authors do? What should journals ask, encourage, and require? What infrastructure should we use and/or develop? What can other disciplines learn from political science?*
 
